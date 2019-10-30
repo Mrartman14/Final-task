@@ -2,6 +2,7 @@
 
 	<div class="create-event">
 		<h1 class="create-event__heading">Создание мероприятия</h1>
+		<router-link to="/current-events">Назад</router-link>
 		<div class="create-event__title">
 			<p>Заголовок:</p>
 			<input type="text" v-model ="title" placeholder="Введите название мероприятия">
@@ -15,7 +16,6 @@
 			<button @click="createEvent()"> test {{  }} </button>
 			<!-- в кнопке текущая дата связанная v-model с event.dete -->
 		</div>
-		
 	</div>
 
 </template>
@@ -48,12 +48,14 @@
 					title: this.title,
 					description: this.description,
 					important: true,
-					comments: [],
-					user: {},
+					comments: [], //не работает как надо
+					user: {}, //не работает как надо
 				};
 				this.addEvent(newEvent);
 				this.title = '';
 				this.description = ''
+				//this.$router.push('/');
+				this.$router.go(-1);
 			}
 		}
 	};

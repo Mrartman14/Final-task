@@ -17,7 +17,7 @@ let store = new Vuex.Store({
 			state.data = payload;
 		},
 		ADD_EVENT(state, event) {
-			state.data.push(event);
+			state.data.unshift(event);
 		},
 		DELETE_EVENT(state, number) {
 			state.data.splice(number, 1);
@@ -28,7 +28,8 @@ let store = new Vuex.Store({
 			axios
 			.get('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events')//вроде можно вынести в переменную
 			.then(response => {
-				commit('SET_DATA', response.data);
+				commit('SET_DATA', response.data.reverse());
+				console.log(response.data); 
 			})
 			.catch((error) => {
 				console.log(error);
@@ -55,7 +56,7 @@ export default store;
 
 // async loadData({ commit }) {
 // 	let response = await axios.get('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events');
-// 	commit('SET_DATA', response.data);
+// 	commit('SET_DATA', response.data.reverse());
 // },
 // async addEvent({ commit }, event) {
 // 	const responce = await axios.post('http://5db050f78087400014d37dc5.mockapi.io/api/users/2/events', event);

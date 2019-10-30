@@ -2,7 +2,13 @@
 
 	<div class="event">
 		<div class="event__heading">
-			<h1 class="event__title">{{ data[dataIndex].title }}</h1>
+			<h1 class="event__title">
+				<!-- <router-link to="/events/:id"> -->
+					{{ data[dataIndex].title }}
+				<!-- </router-link> -->
+			</h1>
+			<!-- <button @click="showId(data[dataIndex].id)">show id</button> -->
+			<button @click="goToInfo(data[dataIndex].id)">goToinfo</button>
 			<button class="event__delete" @click="deleteEvent( {id: data[dataIndex].id, number: dataIndex} )">Удалить</button>
 		</div>
 		<p class="event__description">{{ data[dataIndex].description }}</p>
@@ -10,12 +16,17 @@
 			<span class="event__date">Дата публикации: {{ data[dataIndex].dete }}</span>
 			<span class="event__comments">Комментарии: {{ data[dataIndex].comments.length }}</span>
 		</div>
+
+		<!-- <eventInfo :dataIndex="dataIndex" />  -->
+		<!--UBRAT -->
+
 	</div>
 
 </template>
 
 <script>
 
+	import eventInfo from './EventInfo';//ubrat
 	import axios from 'axios';
 	import { mapGetters, mapActions } from 'vuex';
 
@@ -24,20 +35,24 @@
 		props: {
 			dataIndex: Number
 		},
-		data() {
-			return {
-
-			}
-		},
 		computed: {
 			...mapGetters([
-				'data', 'comments'
-			])
+				'data'
+			]),
 		},
 		methods: {
 			...mapActions([
-				'loadData', 'deleteEvent'
-			])
+				'deleteEvent'
+			]),
+			showId(test){
+				console.log(test);//test
+			},
+			goToInfo(id) {// new test
+				this.$router.push('/events/'+ id);
+			}
+		},
+		components: {
+			eventInfo: eventInfo//ubrat
 		}
 	};
 	
