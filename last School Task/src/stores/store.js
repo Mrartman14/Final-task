@@ -1,16 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
-Vue.use(Vuex, axios); //Vue.use(Vuex, axios);
+Vue.use(Vuex, axios);
 
 
 
 let store = new Vuex.Store({
 	state: {
-		data: null
+		data: null,
+		// dataId: 0
 	},
 	getters: {
-		data: state => state.data
+		data: state => state.data,
+		dataId: state => state.dataId
 	},
 	mutations: {
 		SET_DATA(state, payload) {
@@ -21,9 +23,15 @@ let store = new Vuex.Store({
 		},
 		DELETE_EVENT(state, number) {
 			state.data.splice(number, 1);
-		}
+		},
+		// SET_DATA_ID(state, id) {
+		// 	state.dataId = id;
+		// }
 	},
 	actions: {
+		// setDataId({ commit }, id) {
+		// 	commit('SET_DATA_ID', id);
+		// },
 		loadData: ({commit}) => {
 			axios
 			.get('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events')//вроде можно вынести в переменную
@@ -47,8 +55,7 @@ let store = new Vuex.Store({
 		async deleteEvent({ commit }, event) {
 			await axios.delete(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events/${event.id}`);
 			commit('DELETE_EVENT', event.number);
-		},
-
+		}
 	},
 })
 

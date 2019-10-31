@@ -6,6 +6,7 @@ import pastEventList from '../components/PastEventList';
 import nearestEventList from '../components/NearestEventList';
 import eventCreate from '../components/EventCreate';
 import eventInfo from '../components/EventInfo';
+import event from '../components/Event';
 
 
 
@@ -29,13 +30,17 @@ let routes = [
 		component: nearestEventList 
 	},
 	{
-		path: '/current-events/event-create',
+		path: '/create-event',
 		component: eventCreate
 	},
 	{
 		path: '/events/:id',
 		component: eventInfo
-	}
+	},
+	{ //TEST!
+		path: '/event/:id',
+		component: event
+	},
 ];
 
 

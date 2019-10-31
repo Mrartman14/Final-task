@@ -1,7 +1,7 @@
 <template>
 
 	<div class="current-event-list-contaiter">
-		<router-link to="/current-events/event-create"> + Добавить событие </router-link>
+		<router-link to="/create-event"> + Добавить событие </router-link>
 		<router-view/>
 
 		<div class="events-container">
@@ -9,6 +9,7 @@
 			:dataIndex = i
 			class="event-wrapper"/>
 		</div>
+
 	</div>
 
 </template>
@@ -16,12 +17,14 @@
 <script>
 
 	import event from './Event';
-	import eventCreate from './EventCreate';//скорее всего не нужен
 	import { mapGetters } from 'vuex';
 
 	export default {
 		name: 'currentEventList',
-		props: {
+		data() {
+			return {
+				dataIndex: 0
+			}
 		},
 		computed: {
 			...mapGetters([
@@ -29,17 +32,21 @@
 			])
 		},
 		components: {
-			event: event,
-			eventCreate: eventCreate
+			event: event
 		}
     };
     
 </script>
 
 <style lang="scss">
-.event-wrapper{
-	margin: 10px;
-}
-
-
+	.event-wrapper{
+		margin: 10px 0;
+		
+		&:first-child {
+			margin-top: 0;
+		}
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
 </style>
