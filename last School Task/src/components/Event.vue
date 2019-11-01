@@ -3,9 +3,10 @@
 	<div class="event">
 		<div class="event__heading">
 				<router-link :to="/events/ + (dataIndex + 1)">
-					<button class="event__link-btn event__title">{{ data[dataIndex].title }}</button> <!--@click="setDataId()" -->
+					<h1 class="event__title">{{ data[dataIndex].title }}</h1> 
 				</router-link>
-			<button class="event__delete" @click="deleteEvent( {id: data[dataIndex].id, number: dataIndex} )">Удалить</button>
+			<!-- <button class="event__delete" @click="deleteEvent( {id: data[dataIndex].id, number: dataIndex} )">Удалить</button> -->
+			<button class="event__delete" @click="deleteEvent( {id: data[dataIndex].id} )">Удалить</button>
 		</div>
 		<p class="event__description">{{ data[dataIndex].description }}</p>
 		<div class="event__info">
@@ -59,11 +60,11 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	&__link-btn {
-		background: none;
-		border: none;
-		padding: 0;
-	}
+	// &__link-btn {
+	// 	background: none;
+	// 	border: none;
+	// 	padding: 0;
+	// }
 }
 
 

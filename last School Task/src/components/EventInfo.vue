@@ -14,13 +14,12 @@
 	<div class="event-info-wrapper">
 		<button @click="goBack()" class="event__back-btn">Вернуться к списку</button>
 		<div class="event">
-			<h1> this.$route.params.id : {{this.$route.params.id}} </h1>
 			<div class="event__heading">
-				<h1 class="event__title">{{ data[(this.$route.params.id) - 1].title }}</h1>
-				<span class="event__date">Дата публикации:{{ data[(this.$route.params.id) - 1].dete }}</span>
+				<h1 class="event__title">{{ data[id].title }}</h1>
+				<span class="event__date">Дата публикации:{{ data[id].dete }}</span>
 			</div>	
 			<div class="event__info">	
-				<p class="event__description">{{ data[(this.$route.params.id) - 1].description }}</p>
+				<p class="event__description">{{ data[id].description }}</p>
 			</div>
 		</div>
 
@@ -31,10 +30,10 @@
 		:commentIndex="commentIndex"/> -->
 		<h2 class="event__title">Комментарии:</h2>
 		<eventComment 
-		v-for="(comment, commentIndex) in data[(this.$route.params.id) - 1].comments" 
+		v-for="(comment, commentIndex) in data[id].comments" 
 		:key="commentIndex"
 		:commentIndex="commentIndex"
-		:id="id"/>
+		:dataIndex="id"/>
 	</div>
 
 </template>
@@ -48,13 +47,16 @@
 		name: 'EventInfo',
 		data() {
 			return {
-				id: this.$route.params.id - 1
+				//id: this.$route.params.id - 1
 			}
 		},
 		computed: {
 			...mapGetters([
-				'data', 'dataId'
-			])
+				'data'//, 'dataId'
+			]),
+			id() {
+				return this.$route.params.id - 1
+			}
 		},
 		components: {
 			eventComment: eventComment
@@ -66,13 +68,14 @@
 		},
 		mounted() {
 			//this.$route.params.id = this.dataId;
+			//console.log(this.$route.params.id);
+			//this.id = this.$route.params.id - 1;
 		}
 	};
 
 </script>
 
 <style lang="scss">
-
 
 	.event__back-btn {
 		background: none;

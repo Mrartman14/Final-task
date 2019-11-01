@@ -6,7 +6,6 @@ import pastEventList from '../components/PastEventList';
 import nearestEventList from '../components/NearestEventList';
 import eventCreate from '../components/EventCreate';
 import eventInfo from '../components/EventInfo';
-import event from '../components/Event';
 
 
 
@@ -22,12 +21,26 @@ let routes = [
 		component: pastEventList
 	},
 	{ 
-		path: '/current-events',
-		component: сurrentEventList,
-	},
-	{ 
 		path: '/nearest-events',
 		component: nearestEventList 
+	},
+	{ 
+		path: '/current-events',
+		component: сurrentEventList,
+		// children: [
+		// 	{
+		// 		path: 'events/:id', //сделать просто :id
+		// 		component: eventInfo
+		// 	},
+		// 	{ 
+		// 		path: 'nearest-events',
+		// 		component: nearestEventList 
+		// 	},
+		// 	{
+		// 		path: '/create-event',
+		// 		component: eventCreate
+		// 	}
+		// ]
 	},
 	{
 		path: '/create-event',
@@ -36,11 +49,7 @@ let routes = [
 	{
 		path: '/events/:id',
 		component: eventInfo
-	},
-	{ //TEST!
-		path: '/event/:id',
-		component: event
-	},
+	}
 ];
 
 

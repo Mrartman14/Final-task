@@ -52,8 +52,6 @@
 					user: {}, //не работает как надо
 				};
 				this.addEvent(newEvent);
-				this.title = '';
-				this.description = ''
 				//this.$router.push('/');
 				this.$router.go(-1);
 			}

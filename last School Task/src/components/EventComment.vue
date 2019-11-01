@@ -17,26 +17,37 @@
 		<div class="event__comment__info">
 			<div class="event__comment__author">
 				<div class="event__comment__author__avatar">
-					<img :src="data[id].comments[commentIndex].avatar">
+					<img :src="data[dataIndex].comments[commentIndex].avatar">
 				</div>
-				{{ data[id].comments[commentIndex].name }}
+				{{ data[dataIndex].comments[commentIndex].name }}
 			</div>
-			<div class="event__comment__date">{{ data[id].comments[commentIndex].date }}</div>
+			<div class="event__comment__date">{{ data[dataIndex].comments[commentIndex].date }}</div>
 		</div>
-		<p class="event__comment__text">{{ data[id].comments[commentIndex].text }}</p>
-		<button class="event__comment__delete">Удалить</button>
+		<p class="event__comment__text">{{ data[dataIndex].comments[commentIndex].text }}</p>
+		<!-- <button 
+		@click="deleteComment({
+			id: data[dataIndex].id,
+			index: dataIndex,
+			commentId: data[dataIndex].comments[commentIndex].id,
+			commentIndex: commentIndex
+			})"
+		class="event__comment__delete">Удалить</button> -->
+		<button 
+		@click="deleteComment( {id: data[dataIndex].id, commentId: data[dataIndex].comments[commentIndex].id,} )"
+		class="event__comment__delete">Удалить</button>
 	</div>
 
 </template>
 
 <script>
 
-	import { mapGetters } from 'vuex';
+	import { mapGetters, mapActions } from 'vuex';
+	import axios from 'axios';
 
 	export default {
 		name: 'EventComment',
 		props: {
-			id: Number, //назвать по-нормальному
+			dataIndex: Number,
 			commentIndex: Number
 		},
 		computed: {
@@ -45,10 +56,13 @@
 			])
 		},
 		methods: {
+			...mapActions([
+				'deleteComment'
+			]),
 			toLocalString(){
 				//сделац
 			}
-		}
+		},
 	};
 
 </script>
