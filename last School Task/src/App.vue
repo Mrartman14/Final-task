@@ -10,18 +10,18 @@
 
 <script>
 //поставить ESlint
-	import { mapActions } from 'vuex';
+//	import { mapActions } from 'vuex';
 
 	export default {
 		name: 'app',
-		methods: {
-			...mapActions([
-				'loadData'
-			]),
-		},
-		mounted() {
-			this.loadData();
-		},
+		// methods: {
+		// 	...mapActions([
+		// 		'loadData'
+		// 	]),
+		// },
+		// mounted() {
+		// 	this.loadData();
+		// },
 	}
 
 </script>

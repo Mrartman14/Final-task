@@ -1,19 +1,6 @@
 <template>
 
-	<!-- <div class="event__comment-wrapper">
-		<div class="event__comment__info">
-			<div class="event__comment__author">
-				<div class="event__comment__author__avatar">
-					<img :src="data[dataId].comments[commentIndex].avatar">
-				</div>
-				{{ data[dataId].comments[commentIndex].name }}
-			</div>
-			<div class="event__comment__date">{{ data[dataId].comments[commentIndex].date }}</div>
-		</div>
-		<p class="event__comment__text">{{ data[dataId].comments[commentIndex].text }}</p>
-		<button class="event__comment__delete">Удалить</button>
-	</div> -->
-		<div class="event__comment-wrapper">
+	<div class="event__comment-wrapper">
 		<div class="event__comment__info">
 			<div class="event__comment__author">
 				<div class="event__comment__author__avatar">
@@ -24,16 +11,7 @@
 			<div class="event__comment__date">{{ data[dataIndex].comments[commentIndex].date }}</div>
 		</div>
 		<p class="event__comment__text">{{ data[dataIndex].comments[commentIndex].text }}</p>
-		<!-- <button 
-		@click="deleteComment({
-			id: data[dataIndex].id,
-			index: dataIndex,
-			commentId: data[dataIndex].comments[commentIndex].id,
-			commentIndex: commentIndex
-			})"
-		class="event__comment__delete">Удалить</button> -->
-		<button 
-		@click="deleteComment( {id: data[dataIndex].id, commentId: data[dataIndex].comments[commentIndex].id,} )"
+		<button @click="deleteComment( {id: data[dataIndex].id, commentId: data[dataIndex].comments[commentIndex].id,} )"
 		class="event__comment__delete">Удалить</button>
 	</div>
 
@@ -52,7 +30,7 @@
 		},
 		computed: {
 			...mapGetters([
-				'data', 'dataId'
+				'data'
 			])
 		},
 		methods: {

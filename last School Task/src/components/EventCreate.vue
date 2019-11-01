@@ -22,6 +22,7 @@
 
 <script>
 
+	import axios from 'axios';
 	import { mapActions } from 'vuex';
 
 	export default {
@@ -40,7 +41,7 @@
 		},
 		methods: {
 			...mapActions([
-				'addEvent' // он должен быть в этом компоненте
+				'addEvent'
 			]),
 			createEvent() {
 				let newEvent = {
@@ -52,7 +53,6 @@
 					user: {}, //не работает как надо
 				};
 				this.addEvent(newEvent);
-				//this.$router.push('/');
 				this.$router.go(-1);
 			}
 		}

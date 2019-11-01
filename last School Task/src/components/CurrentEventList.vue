@@ -10,32 +10,56 @@
 			class="event-wrapper"/>
 		</div>
 
+		<div class="btn_container">
+			<button @click="changePage( (page - 1) )">Пред.стр.</button> <!--добавить валидацию от 1 до numberOfbuttons()-->
+
+			<button v-for="(item, i) in numberOfbuttons()" :key="i" 
+			@click="changePage( (i + 1) )">{{ i + 1 }}</button>
+
+			<button @click="changePage( (page + 1) )">Сл.стр.</button>
+		</div>
 	</div>
 
 </template>
 
 <script>
 
+	import axios from 'axios';
 	import event from './Event';
-	import { mapGetters } from 'vuex';
+	import { mapGetters, mapActions } from 'vuex';
 
 	export default {
 		name: 'currentEventList',
 		data() {
 			return {
-				dataIndex: 0
+				//dataLenght: []
 			}
 		},
 		computed: {
 			...mapGetters([
-				'data'
+				'data', 'limit', 'fullDataLength', 'page'
 			])
+		},
+		methods: {
+			...mapActions([
+				'loadData', 'getPageContent', 'changePage', 'getFullDataLength'
+			]),
+			numberOfbuttons() {
+				let partOfData = [];
+				partOfData.length = Math.ceil((this.fullDataLength.length + 1) / this.limit);
+				return partOfData
+			},
 		},
 		components: {
 			event: event
+		},
+		mounted() {
+			//this.loadData();
+			this.getPageContent();
+			this.getFullDataLength();
+			//this.numberOfbuttons();
 		}
-    };
-    
+	};
 </script>
 
 <style lang="scss">

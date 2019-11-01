@@ -5,7 +5,6 @@
 				<router-link :to="/events/ + (dataIndex + 1)">
 					<h1 class="event__title">{{ data[dataIndex].title }}</h1> 
 				</router-link>
-			<!-- <button class="event__delete" @click="deleteEvent( {id: data[dataIndex].id, number: dataIndex} )">Удалить</button> -->
 			<button class="event__delete" @click="deleteEvent( {id: data[dataIndex].id} )">Удалить</button>
 		</div>
 		<p class="event__description">{{ data[dataIndex].description }}</p>
@@ -29,16 +28,13 @@
 		},
 		computed: {
 			...mapGetters([
-				'data'//, 'dataId'
+				'data'
 			]),
 		},
 		methods: {
 			...mapActions([
-				'deleteEvent'//, 'setDataId'
-			]),
-			// getCurrentIndex() {
-			// 	this.setDataId(this.dataIndex);
-			// }
+				'deleteEvent'
+			])
 		}
 	};
 	
@@ -60,11 +56,6 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	// &__link-btn {
-	// 	background: none;
-	// 	border: none;
-	// 	padding: 0;
-	// }
 }
 
 
