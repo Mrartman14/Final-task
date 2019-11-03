@@ -1,4 +1,5 @@
 <template>
+
 	<div id="app">
 		<div class="nav">
 			<div class="nav__links">
@@ -8,26 +9,17 @@
 			</div>
 			<search />
 		</div>
-
 		<router-view />
 	</div>
+
 </template>
 
 <script>
 //поставить ESlint
-//	import { mapActions } from 'vuex';
 	import search from './components/Search'
 
 	export default {
 		name: 'app',
-		// methods: {
-		// 	...mapActions([
-		// 		'loadData'
-		// 	]),
-		// },
-		// mounted() {
-		// 	this.loadData();
-		// },
 		components: {
 			search
 		}
@@ -36,8 +28,12 @@
 </script>
 
 <style lang="scss">
-.nav {
-	display: flex;
-	justify-content: space-between;
-}
+	#app {
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+	.nav {
+		display: flex;
+		justify-content: space-between;
+	}
 </style>

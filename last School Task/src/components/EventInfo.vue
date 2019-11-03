@@ -1,17 +1,19 @@
 <template>
 
 	<div class="event-info-wrapper">
-		<button @click="goBack()" class="event__back-btn">Вернуться к списку</button>
+		<div class="event__back-btn-wrapper">
+			<button @click="goBack()" class="event__back-btn">Вернуться к списку</button>
+		</div>	
 		<div class="event">
 			<div class="event__heading">
 				<h1 class="event__title">{{ data[id].title }}</h1>
-				<span class="event__date">Дата публикации:{{ data[id].dete }}</span>
+				<span class="event__date">Дата публикации: {{ data[id].dete }}</span>
 			</div>	
 			<div class="event__info">	
-				<p class="event__description">{{ data[id].description }}</p>
+				<p class="event__text">{{ data[id].description }}</p>
 			</div>
 		</div>
-		<h2 class="event__title">Комментарии:</h2>
+		<h2 class="event__comments-title">Комментарии:</h2>
 		<eventComment v-for="(comment, commentIndex) in data[id].comments" 
 		:key="commentIndex"
 		:commentIndex="commentIndex"
@@ -48,11 +50,13 @@
 </script>
 
 <style lang="scss">
-
-	.event__back-btn {
-		background: none;
-		border: none;
-		padding: 0;
+	.event__text {
+		padding-top: 25px;
+	}
+	.event__comments-title {
+		padding-top: 35px;
+		font-size: 1.3em;
+		font-weight: bold;
 	}
 
 </style>

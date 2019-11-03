@@ -1,6 +1,6 @@
 <template>
 
-	<button @click="changeSortType()" class="filter">
+	<button @click="changeSortType()" class="option-button">
 		Сортировать по: {{ sortBy[index][0] }}
 	</button>
 
@@ -32,7 +32,7 @@
 					this.index = 0;
 				}
 				this.createSortQuery({
-					sort: `&sortBy=${this.sortBy[this.index][1]}&order=desc`
+					sort: `&sortBy=${this.sortBy[this.index][1]}&order=${this.sortBy[this.index][1]}`//было desc
 				})
 			}
 		}
@@ -42,5 +42,11 @@
 </script>
 
 <style lang="scss">
-
+	.option-button{
+		box-sizing: border-box;
+		padding: 9px;
+		background: none; //не none, а переменная $standart-button-color
+		border: 1px solid #000;
+		border-radius: 20px;
+	}
 </style>

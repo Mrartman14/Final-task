@@ -41,23 +41,31 @@
 </script>
 
 <style lang="scss">
-.event{
-	box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.41);
-	border-radius: 5px;
-	padding: 10px;
-	&__heading {
-		display: flex;
-		justify-content: space-between;
+	.event{
+		box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.41);
+		border-radius: 5px;
+		padding: 15px;
+		&__heading {
+			display: flex;
+			justify-content: space-between;
+			padding-bottom: 20px;
+		}
+		&__title {
+			font-weight: bold;
+		}
+		&__info {
+			display: flex;
+			justify-content: space-between;
+			color: #888;
+			padding-top: 20px;
+		}
+		&__description {
+			padding: 0;
+		}
+		&__delete {
+			background: none;
+			border: none;
+			color: #ff0000;
+		}
 	}
-	&__title {
-		font-weight: bold;
-	}
-	&__info {
-		display: flex;
-		justify-content: space-between;
-	}
-}
-
-
-
 </style>

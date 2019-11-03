@@ -6,28 +6,26 @@ Vue.use(Vuex, axios);
 let store = new Vuex.Store({
 	state: {
 		data: [],
-		fullDataLength: [],
-		page: 1,
-		limit: 5,
-		defaultQuery: 'http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events',
-		buildQuery: '',
+		fullDataLength: 0,
+		defaultQuery: `http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events`,
+		buildQuery: ``,
 		queryParams: {
 			page: 1,
-			limit: 3,
+			limit: 5,// при изменении limit
+			searchParam: ``,
 			search: `?search=`,
 			sort: `&sortBy=dete&order=desc`,
-			pagination: `&page=&limit=`,
+			pagination: `&page=1&limit=3`// нужно изменять его и здесь
 		}
 	},
 	getters: {
 		data: state => state.data,
 		fullDataLength: state => state.fullDataLength,
-		page: state => state.page,
-		limit: state => state.limit,
-		defaultQuery: state => state.defaultQuery,//скорее всего он не нужен
+		defaultQuery: state => state.defaultQuery,
 		buildQuery: state => state.buildQuery,
-		limitt: state => state.queryParams.limit,
-		pagee: state => state.queryParams.page
+		limit: state => state.queryParams.limit,
+		page: state => state.queryParams.page,
+		searchParam: state => state.queryParams.searchParam
 	},
 	mutations: {
 		SET_DATA(state, response) {
@@ -38,6 +36,8 @@ let store = new Vuex.Store({
 		},
 		CREATE_SEARCH_QUERY(state, queryParams) {
 			state.queryParams.search = queryParams.search;
+			state.queryParams.searchParam = queryParams.searchParam;
+			console.log(state.queryParams.searchParam);
 		},
 		CREATE_PAGINATION_QUERY(state, queryParams) {
 			state.queryParams.pagination = queryParams.pagination;
@@ -46,18 +46,8 @@ let store = new Vuex.Store({
 		CREATE_SORT_QUERY(state, queryParams) {
 			state.queryParams.sort = queryParams.sort;
 		},
-
-
-
-
-
-
-
-		CHANGE_PAGE(state, num) {
-			state.page = num;
-		},
 		SET_FULL_DATA_LENGTH(state, num) {
-			state.fullDataLength.length = num;
+			state.fullDataLength = num;
 		}
 	},
 	actions: {
@@ -66,7 +56,7 @@ let store = new Vuex.Store({
 		},
 		createSearchQuery: ({ commit, dispatch }, queryParams) => {
 			commit('CREATE_SEARCH_QUERY', queryParams);
-			commit('BUILD_NEW_QUERY');//эту мутацию можно сразу же положить внуть мутации CREATE_SEARCH_QUERY
+			commit('BUILD_NEW_QUERY');
 			dispatch('doNewGetQuery', { value: this.a.getters.buildQuery });
 		},
 		createPaginationQuery: ({ commit, dispatch }, queryParams) => {
@@ -79,35 +69,19 @@ let store = new Vuex.Store({
 			commit('BUILD_NEW_QUERY');
 			dispatch('doNewGetQuery', { value: this.a.getters.buildQuery });
 		},
-		doNewGetQuery: ({ commit }, query) => {
+		doNewGetQuery: ({ commit, dispatch }, query) => {
 			console.log(query.value);
 			axios
 			.get(query.value)
 			.then(response => {
 				commit('SET_DATA', response.data);
-				// console.log(response.data);
-				// console.log('');
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 		},
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		getFullDataLength: ({ commit }) => { //в mount компонента
-			axios//может быть есть get-запрос, позволяющий узнать кол-во page ?
+		getFullDataLength: ({ commit }) => {
+			axios
 			.get('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events')
 			.then(response => {
 				commit('SET_FULL_DATA_LENGTH', response.data.length);
@@ -116,34 +90,7 @@ let store = new Vuex.Store({
 				console.log(error);
 			});
 		},	
-		getPageContent: ({ commit, dispatch }) => {
-			dispatch('getFullDataLength');
-			axios
-			.get(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events?page=${this.a.getters.page}&limit=${this.a.getters.limit}`)
-			.then(response => {
-				commit('SET_DATA', response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			})
-		},
-		getSearchContent: ({ commit, dispatch }, searchValue) => {
-			dispatch('changePage', 1);
-			axios
-			.get(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events?search=${searchValue}&page=${this.a.getters.page}&limit=${this.a.getters.limit}`)
-			.then(response => {
-				commit('SET_DATA', response.data);
-				dispatch('getFullDataLength');
-				//console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			})
-		},
-		changePage: ({ commit, dispatch }, num) => {
-			commit('CHANGE_PAGE', num );
-			dispatch('getPageContent');
-		},
+
 
 
 
@@ -151,8 +98,7 @@ let store = new Vuex.Store({
 		addEvent: ({ dispatch }, event) => {
 			axios.post('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events', event)
 			.then(() => {
-				//dispatch('loadData');
-				dispatch('getPageContent');
+				//dispatch('getPageContent');
 			})
 			.catch((error) => {
 				console.log(error);
@@ -162,9 +108,8 @@ let store = new Vuex.Store({
 			axios
 			.delete(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events/${event.id}`)
 			.then(() => {
-				//dispatch('loadData');
 				dispatch('getFullDataLength');
-				dispatch('getPageContent');
+				//dispatch('getPageContent');
 			})
 			.catch((error) => {
 				console.log(error);
@@ -174,24 +119,12 @@ let store = new Vuex.Store({
 			axios
 			.delete(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events/${event.id}/comments/${event.commentId}`)
 			.then(() => {
-				//dispatch('loadData');
-				dispatch('getPageContent');
+				//dispatch('getPageContent');
 			})
 			.catch((error) => {
 				console.log(error);
 			})
-		},
-		loadData: ({commit}) => { //оставить здесь только экшон который коммитит SET_DATA, ВСЁ остальное разбросать по компонентам
-			axios
-			.get('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events')//вроде можно вынести в переменную
-			.then(response => {
-				commit('SET_DATA', response.data.reverse());
-				console.log(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-		},
+		}
 	}
 })
 
