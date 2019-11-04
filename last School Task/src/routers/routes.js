@@ -48,7 +48,9 @@ let routes = [
 	},
 	{
 		path: '/events/:id',
-		component: eventInfo
+		component: eventInfo,
+		name: 'eventInfo',
+		props: true
 	}
 ];
 

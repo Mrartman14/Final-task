@@ -32,7 +32,7 @@
 					this.index = 0;
 				}
 				this.createSortQuery({
-					sort: `&sortBy=${this.sortBy[this.index][1]}&order=${this.sortBy[this.index][1]}`//было desc
+					sort: `&sortBy=${this.sortBy[this.index][1]}&order=${this.sortBy[this.index][1]}`
 				})
 			}
 		}
@@ -42,10 +42,11 @@
 </script>
 
 <style lang="scss">
+@import '../helpers/common-styles.scss';
 	.option-button{
 		box-sizing: border-box;
 		padding: 9px;
-		background: none; //не none, а переменная $standart-button-color
+		background: $primary-background-button-color;
 		border: 1px solid #000;
 		border-radius: 20px;
 	}

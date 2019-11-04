@@ -1,0 +1,38 @@
+//-------------------VARIABLES-------------------//
+	//--------COLORS--------//
+		$primary-font-color: #000;
+		$secondary-font-color: #8f8f8f;
+		$primary-background-button-color: #fff;
+		$secondary-background-button-color: #d2d2d2;
+		$additional-background-button-color: #19d94f;
+		$delete-color: #ff0000;
+	//--------OTHER---------//
+		$box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.41);
+		$mini-box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.41);
+//-----------------COMMON-STYLES-----------------//
+	.event__back-btn {
+		position: relative;
+		background: none;
+		border: none;
+		padding: 0;
+		color: $secondary-font-color;
+		&-wrapper {
+			padding: 20px 0 30px 27px;
+		}
+		&:before {
+			content: '<';
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 0.6em;
+			color: $secondary-background-button-color;
+			position: absolute;
+			width: 16px;
+			height: 16px;
+			box-shadow: $mini-box-shadow;
+			border: 0.5px solid $secondary-background-button-color;
+			border-radius: 50%;
+			top: 0;
+			left: -27px;
+		}
+	}

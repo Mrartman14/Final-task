@@ -11,11 +11,11 @@ let store = new Vuex.Store({
 		buildQuery: ``,
 		queryParams: {
 			page: 1,
-			limit: 5,// при изменении limit
+			limit: 5,
 			searchParam: ``,
 			search: `?search=`,
 			sort: `&sortBy=dete&order=desc`,
-			pagination: `&page=1&limit=3`// нужно изменять его и здесь
+			pagination: `&page=1&limit=`
 		}
 	},
 	getters: {
@@ -23,21 +23,19 @@ let store = new Vuex.Store({
 		fullDataLength: state => state.fullDataLength,
 		defaultQuery: state => state.defaultQuery,
 		buildQuery: state => state.buildQuery,
-		limit: state => state.queryParams.limit,
 		page: state => state.queryParams.page,
-		searchParam: state => state.queryParams.searchParam
+		limit: state => state.queryParams.limit,
+		searchParam: state => state.queryParams.searchParam,
+		search: state => state.queryParams.search,
+		sort: state => state.queryParams.sort
 	},
 	mutations: {
-		SET_DATA(state, response) {
-			state.data = response;
-		},
 		BUILD_NEW_QUERY(state) {
-			state.buildQuery = `${state.defaultQuery}` + `${state.queryParams.search}` + `${state.queryParams.sort}` + `${state.queryParams.pagination}`;
+			state.buildQuery = state.defaultQuery + state.queryParams.search + state.queryParams.sort + state.queryParams.pagination;
 		},
 		CREATE_SEARCH_QUERY(state, queryParams) {
 			state.queryParams.search = queryParams.search;
 			state.queryParams.searchParam = queryParams.searchParam;
-			console.log(state.queryParams.searchParam);
 		},
 		CREATE_PAGINATION_QUERY(state, queryParams) {
 			state.queryParams.pagination = queryParams.pagination;
@@ -46,13 +44,30 @@ let store = new Vuex.Store({
 		CREATE_SORT_QUERY(state, queryParams) {
 			state.queryParams.sort = queryParams.sort;
 		},
+		SET_DATA(state, response) {
+			state.data = response;
+		},
 		SET_FULL_DATA_LENGTH(state, num) {
 			state.fullDataLength = num;
 		}
 	},
 	actions: {
-		createNewQuery: ({ commit, dispatch }, queryParams) => {
-			commit('BUILD_NEW_QUERY', queryParams);
+		doNewGetQuery: ({ commit, dispatch }, query) => {
+			console.log(query.value);
+			axios
+			.get(query.value)
+			.then(response => {
+				if(response.data.length === 0 && this.a.getters.page !== 1) {
+					dispatch('createPaginationQuery', {
+						pagination: `&page=${this.a.getters.page - 1}&limit=${this.a.getters.limit}`,
+						currentPage: this.a.getters.page - 1
+					})
+				}
+				commit('SET_DATA', response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 		},
 		createSearchQuery: ({ commit, dispatch }, queryParams) => {
 			commit('CREATE_SEARCH_QUERY', queryParams);
@@ -69,36 +84,10 @@ let store = new Vuex.Store({
 			commit('BUILD_NEW_QUERY');
 			dispatch('doNewGetQuery', { value: this.a.getters.buildQuery });
 		},
-		doNewGetQuery: ({ commit, dispatch }, query) => {
-			console.log(query.value);
-			axios
-			.get(query.value)
-			.then(response => {
-				commit('SET_DATA', response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-		},
-		getFullDataLength: ({ commit }) => {
-			axios
-			.get('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events')
-			.then(response => {
-				commit('SET_FULL_DATA_LENGTH', response.data.length);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-		},	
-
-
-
-
-
 		addEvent: ({ dispatch }, event) => {
-			axios.post('http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events', event)
+			axios.post(this.a.getters.defaultQuery, event)
 			.then(() => {
-				//dispatch('getPageContent');
+				dispatch('doNewGetQuery', { value: this.a.getters.buildQuery });
 			})
 			.catch((error) => {
 				console.log(error);
@@ -106,10 +95,10 @@ let store = new Vuex.Store({
 		},
 		deleteEvent: ({ dispatch }, event) => {
 			axios
-			.delete(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events/${event.id}`)
+			.delete(`${this.a.getters.defaultQuery}/${event.id}`)
 			.then(() => {
 				dispatch('getFullDataLength');
-				//dispatch('getPageContent');
+				dispatch('doNewGetQuery', { value: this.a.getters.buildQuery });
 			})
 			.catch((error) => {
 				console.log(error);
@@ -117,13 +106,32 @@ let store = new Vuex.Store({
 		},
 		deleteComment: ({ dispatch }, event) => {
 			axios
-			.delete(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events/${event.id}/comments/${event.commentId}`)
+			.delete(`${this.a.getters.defaultQuery}/${event.id}/comments/${event.commentId}`)
 			.then(() => {
-				//dispatch('getPageContent');
+				dispatch('getFullDataLength');
+				dispatch('doNewGetQuery', { value: this.a.getters.buildQuery });
 			})
 			.catch((error) => {
 				console.log(error);
 			})
+		},
+		getFullDataLength: ({ commit }) => {
+			if(this.a.getters.searchParam === ``) {
+				axios
+				.get(this.a.getters.defaultQuery)
+				.then(response => {
+					commit('SET_FULL_DATA_LENGTH', response.data.length);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			} else {
+				axios
+				.get(this.a.getters.defaultQuery + this.a.getters.search + this.a.getters.sort)
+				.then(response => {
+					commit('SET_FULL_DATA_LENGTH', response.data.length);
+				})
+			}
 		}
 	}
 })
@@ -146,3 +154,7 @@ export default store;
 // 	await axios.delete(`http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events/${event.id}/comments/${event.commentId}`);
 // 	dispatch('loadData');
 // }
+
+// createNewQuery: ({ commit, dispatch }, queryParams) => {
+// 	commit('BUILD_NEW_QUERY', queryParams);
+// },

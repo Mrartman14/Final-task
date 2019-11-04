@@ -6,36 +6,37 @@
 		</div>	
 		<div class="event">
 			<div class="event__heading">
-				<h1 class="event__title">{{ data[id].title }}</h1>
-				<span class="event__date">Дата публикации: {{ data[id].dete }}</span>
+				<h1 class="event__title">{{ data[dataIndex].title }}</h1>
+				<span class="event__date">Дата публикации: {{ validDate(data[dataIndex].dete) }}</span>
 			</div>	
 			<div class="event__info">	
-				<p class="event__text">{{ data[id].description }}</p>
+				<p class="event__text">{{ data[dataIndex].description }}</p>
 			</div>
 		</div>
 		<h2 class="event__comments-title">Комментарии:</h2>
-		<eventComment v-for="(comment, commentIndex) in data[id].comments" 
+		<eventComment v-for="(comment, commentIndex) in data[dataIndex].comments" 
 		:key="commentIndex"
 		:commentIndex="commentIndex"
-		:dataIndex="id"/>
+		:dataIndex="dataIndex"/>
 	</div>
 
 </template>
 
 <script>
 
+	import { validDate } from '../helpers/validDate';
 	import { mapGetters } from 'vuex';
 	import eventComment from './EventComment';
 
 	export default {
-		name: 'EventInfo',
+		name: 'eventInfo',
+		props: {
+			dataIndex: Number
+		},
 		computed: {
 			...mapGetters([
 				'data'
-			]),
-			id() {
-				return this.$route.params.id - 1
-			}
+			])
 		},
 		components: {
 			eventComment: eventComment
@@ -43,15 +44,23 @@
 		methods: {
 			goBack() {
 				this.$router.go(-1);
+			},
+			validDate(date) {
+				return validDate(date);
 			}
+
 		}
 	};
 
 </script>
 
 <style lang="scss">
+@import '../helpers/common-styles.scss';
 	.event__text {
-		padding-top: 25px;
+		color: $primary-font-color;
+	}
+	.event__date {
+		color: $secondary-font-color;
 	}
 	.event__comments-title {
 		padding-top: 35px;

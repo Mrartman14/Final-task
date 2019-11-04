@@ -3,12 +3,17 @@
 	<div class="event__comment">
 		<div class="event__comment__info">
 			<div class="event__comment__author">
-				<div class="event__comment__author__avatar">
-					<img :src="data[dataIndex].comments[commentIndex].avatar">
+				<div class="event__comment__author__avatar-wrapper">
+					<a href="">
+						<img :src="data[dataIndex].comments[commentIndex].avatar"
+							class="event__comment__author__avatar">
+					</a>	 
 				</div>
-				{{ data[dataIndex].comments[commentIndex].name }}
+				<a href="" class="event__comment__author__name">
+					{{ data[dataIndex].comments[commentIndex].name }}
+				</a>
 			</div>
-			<div class="event__comment__date">{{ data[dataIndex].comments[commentIndex].date }}</div>
+			<div class="event__comment__date">{{ validDate(data[dataIndex].comments[commentIndex].date) }}</div>
 		</div>
 		<p class="event__comment__text">{{ data[dataIndex].comments[commentIndex].text }}</p>
 		<div class="event__comment__delete-wrapper">
@@ -23,6 +28,7 @@
 
 <script>
 
+	import { validDate } from '../helpers/validDate';
 	import { mapGetters, mapActions } from 'vuex';
 	import axios from 'axios';
 
@@ -41,8 +47,8 @@
 			...mapActions([
 				'deleteComment'
 			]),
-			toLocalString(){
-				//сделац
+			validDate(date) {
+				return validDate(date);
 			}
 		},
 	};
@@ -50,6 +56,7 @@
 </script>
 
 <style lang="scss">
+@import '../helpers/common-styles.scss';
 	.event__comment {
 		border: 1px solid #000;
 		margin: 20px 0;
@@ -62,24 +69,32 @@
 		&__author {
 			display: flex;
 			align-items: center;
-			color: #8f8f8f; //$link-color
+			&__name {
+				color: $secondary-font-color;
+			}
 			&__avatar {
-				width: 45px;
-				height: 45px;
-				border-radius: 50%;
-				border: 1px solid #000;
-				overflow: hidden;
-				margin-right: 20px;
+				height: 100%;
+				width: 100%;
+				&-wrapper{
+					width: 50px;
+					height: 50px;
+					border-radius: 50%;
+					overflow: hidden;
+					margin-right: 20px;
+				}
 			}
 		}
 		&__text {
 			padding: 25px 0 10px 0;
 		}
+		&__date {
+			color: $secondary-font-color;
+		}
 		&__delete {
 			background: none;
 			border: none;
 			padding: 0;
-			color: #ff0000;
+			color: $delete-color;
 		}
 	}
 	.event__comment__delete-wrapper {

@@ -1,7 +1,7 @@
 <template>
 
 	<div class="btn_container">
-		<button @click="pagination( (page - 1) )" class="page-button">Пред.стр.</button> 
+		<button @click="pagination( (page - 1) )" class="page-button">Туда</button> 
 
 		<button v-for="(item, i) in numberOfbuttons()" :key="i" 
 		@click="pagination( (i + 1) )"
@@ -9,7 +9,7 @@
 			{{ i + 1 }}
 		</button>
 
-		<button @click="pagination( (page + 1) )" class="page-button">Сл.стр.</button>
+		<button @click="pagination( (page + 1) )" class="page-button">Сюда</button>
 	</div>
 
 </template>
@@ -60,14 +60,15 @@
 </script>
 
 <style lang="scss">
+@import '../helpers/common-styles.scss';
 	.btn_container {
 		padding-top: 30px;
 	}
 	.page-button {
-		box-shadow: 0px 0px 4px 0px rgba(50, 50, 50, 0.41);//$box-shadow
+		box-shadow: $box-shadow;
 		padding: 5px;
 		margin: 0 5px;
-		background: #fff;
+		background: $primary-background-button-color;
 		border: 1px solid #000;
 		border-radius: 5px;
 	}
@@ -75,6 +76,6 @@
 		padding: 5px 10px;
 	}
 	.page-button-active {
-		background: rgb(199, 199, 199);
+		background: $secondary-background-button-color;
 	}
 </style>

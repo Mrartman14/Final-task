@@ -7,7 +7,6 @@
 			</router-link>
 			<filterButton />
 		</div>	
-		<!--<router-view /> А он здесь нужен вообще?-->
 
 		<div class="events-container">
 			<event v-for="(item, i) in data" :key="i"
@@ -35,7 +34,7 @@
 		name: 'currentEventList',
 		computed: {
 			...mapGetters([
-				'data', 'page', 'limit'
+				'data', 'page', 'limit', 'fullDataLength'
 			])
 		},
 		methods: {
@@ -58,6 +57,7 @@
 </script>
 
 <style lang="scss">
+	@import '../helpers/common-styles.scss';
 	.current-event-list-options {
 		display: flex;
 		justify-content: space-between;
@@ -75,7 +75,7 @@
 	}
 	.create-event__option-button {
 		color: #fff;
-		background: #19d94f;// $add-button-color
+		background: $additional-background-button-color;
 		padding: 10px 20px;
 		border: none;
 		border-radius: 20px;

@@ -1,7 +1,7 @@
 <template>
 	<div class="search">
 		<button v-if="searchExistence" @click="reset()" class="search__reset">
-			{{ searchParam }}
+			Поиск по: {{ searchParam }}
 		</button>
 
 		<input type="text"
@@ -21,7 +21,6 @@
 		data() {
 			return {
 				searchValue: ``,
-				placeholder: ``,
 				searchExistence: false
 			}
 		},
@@ -59,6 +58,7 @@
 </script>
 
 <style lang="scss">
+@import '../helpers/common-styles.scss';
 	.search {
 		display: flex;
 		align-items: center;
@@ -66,7 +66,7 @@
 			border: none;
 			padding: 4px 0 4px 25px;
 			width: 90px;
-			box-shadow: 0px 0px 2px 0px rgba(50, 50, 50, 0.41) inset; //$box-shadow
+			box-shadow: $mini-box-shadow inset;
 			border-radius: 10px;
 			background-image: url('../images/magnifying-glass.png');
 			background-size: 14px 14px;
@@ -91,7 +91,7 @@
 			opacity: 0.2;
 			&:hover {
 				opacity: 1;
-				color: #ff0000;
+				color: $delete-color;
 			}
 		}
 	}
