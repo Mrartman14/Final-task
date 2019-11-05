@@ -1,19 +1,17 @@
 <template>
-
 	<div id="app">
-		<navigation/>
+		<router-view />
 	</div>
-
 </template>
 
 <script>
 	//поставить ESlint
-	import navigation from './components/Navigation'
+	import Layout from './components/Layout'
 
 	export default {
 		name: 'app',
 		components: {
-			navigation
+			Layout
 		}
 	}
 

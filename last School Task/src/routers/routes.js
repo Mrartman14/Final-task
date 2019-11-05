@@ -1,11 +1,10 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import сurrentEventList from '../components/CurrentEventList';
-import pastEventList from '../components/PastEventList';
-import nearestEventList from '../components/NearestEventList';
+import eventList from '../components/EventList';
 import eventCreate from '../components/EventCreate';
 import eventInfo from '../components/EventInfo';
+import Layout from '../components/Layout';
 
 
 
@@ -13,45 +12,45 @@ Vue.use(VueRouter);
 
 let routes = [
 	{
-		path:'/',
-		component: сurrentEventList
+		path: '/',
+		redirect: '/events',
+		component: Layout,
+		children: [
+			{
+				path:'events',
+				component: eventList,
+				redirect: '/events/current',
+				children: [
+					{
+						path:'past',
+						component: eventList,
+						props: true
+					},
+					{
+						path:'current',
+						component: eventList,
+						props: true
+					},
+					{
+						path:'nearest',
+						component: eventList,
+						props: true
+					}
+				]
+			},
+			{
+				path: '/event-create',
+				component: eventCreate
+			},
+			{
+				path: '/events/:id',
+				component: eventInfo,
+				name: 'eventInfo',
+				props: true
+			}
+		]
 	},
-	{ 
-		path: '/past-events',
-		component: pastEventList
-	},
-	{ 
-		path: '/nearest-events',
-		component: nearestEventList 
-	},
-	{ 
-		path: '/current-events',
-		component: сurrentEventList,
-		// children: [
-		// 	{
-		// 		path: 'events/:id', //сделать просто :id
-		// 		component: eventInfo
-		// 	},
-		// 	{ 
-		// 		path: 'nearest-events',
-		// 		component: nearestEventList 
-		// 	},
-		// 	{
-		// 		path: '/create-event',
-		// 		component: eventCreate
-		// 	}
-		// ]
-	},
-	{
-		path: '/create-event',
-		component: eventCreate
-	},
-	{
-		path: '/events/:id',
-		component: eventInfo,
-		name: 'eventInfo',
-		props: true
-	}
+	
 ];
 
 

@@ -1,41 +1,42 @@
 <template>
 
-	<div class="create-event">
+	<div class="event-create">
 		<div class="event__back-btn-wrapper">
 			<button @click="goBack()" class="event__back-btn">Назад</button>
 		</div>
 
-		<h1 class="create-event__heading">Создание мероприятия</h1>
+		<h1 class="event-create__heading">Создание мероприятия</h1>
 
-		<div class="create-event__title">
-			<span class="create-event__input__heading">Заголовок:</span>
+		<div class="event-create__title">
+			<span class="event-create__input__heading">Заголовок:</span>
 			<input type="text"
 			v-model ="title"
-			class="create-event__input-head" 
+			class="event-create__input-head" 
 			placeholder="Введите название мероприятия">
 		</div>
 
-		<div class="create-event__description">
-			<span class="create-event__input__heading">Описание:</span>
-			<label for="create-event__input-description" class="create-event__input-description__label">
-				<div class="create-event__input-desc-wrapper">
+		<div class="event-create__description">
+			<span class="event-create__input__heading">Описание:</span>
+			<label for="event-create__input-description" class="event-create__input-description__label">
+				<div class="event-create__input-desc-wrapper">
 					<input type="text"
 					v-model ="description"
-					class="create-event__input-desc"
-					id="create-event__input-description"
+					class="event-create__input-desc"
+					id="event-create__input-description"
 					placeholder="Опишите Ваше мероприятие">
 				</div>	
 			</label>
 		</div>
 
-		<div class="create-event__submit">
-			<span class="create-event__input__heading">Дата</span>
-			<button 
-			@click="createEvent()"
-			class="create-event__submit__input">
-				test {{  }}
-			</button>
-			<!-- в кнопке текущая дата связанная v-model с event.dete -->
+		<div class="event-create__submit">
+			<span class="event-create__input__heading">Дата</span>
+			<input type="text"
+			v-model ="date"
+			class="event-create__input-date"
+			:placeholder="dateNow"
+			@keyup.enter="dateValidation()"
+			>
+			<span :class="alarmClass"> {{ alarm }} </span>
 		</div>
 	</div>
 
@@ -46,11 +47,15 @@
 	import { mapActions } from 'vuex';
 
 	export default {
-		name: 'CreateEvent',
+		name: 'eventCreate',
 		data() {
 			return {
 				title: '',
 				description: '',
+				date: '',
+				dateNow: new Date().toLocaleString("ru", {day:"numeric", month:"numeric", year:"numeric"}),
+				alarm: '',
+				alarmClass: ''
 			}
 		},
 		methods: {
@@ -59,19 +64,33 @@
 			]),
 			createEvent() {
 				let newEvent = {
-					//dete: - выводить текущую дату
+					dete: new Date(this.date),
 					title: this.title,
 					description: this.description,
 					important: true,
-					comments: [], //не работает как надо
-					user: {}, //не работает как надо
+					comments: [],
+					user: {},
 				};
 				this.addEvent(newEvent);
-				this.$router.go(-1);
+			},
+			dateValidation() {
+				let valid = this.date.match(/([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4})/);
+				if(valid !== null) {
+					this.createEvent();
+					this.date = ''; this.title = ''; this.description = '';
+					this.alarm = 'Ваше событие успешно создано';
+					this.alarmClass = 'event-create__input-date__alarm-complited';
+				}else {
+					this.alarmClass = 'event-create__input-date__alarm-failed';
+					this.alarm = `Введите дату формата ${this.dateNow}`;
+				}
 			},
 			goBack() {
 				this.$router.go(-1);
 			}
+		},
+		mounted() {
+			//this.$store.dispatch('DELETE');
 		}
 	};
 	
@@ -80,7 +99,7 @@
 <style lang="scss">
 @import '../helpers/common-styles.scss';
 	
-	.create-event{
+	.event-create{
 		&__heading {
 			font-size: 1.3em;
 			font-weight: bold;
@@ -120,6 +139,24 @@
 					box-shadow: $box-shadow;
 					border-radius: 8px;
 					padding: 10px;
+				}
+			}
+			&-date {
+				box-shadow: $box-shadow;
+				padding: 10px 5px 10px 18px;
+				border: none;
+				border-radius: 8px;
+				background: none;
+				width: 100px;
+				&__alarm-complited {
+					color: $additional-background-button-color;
+				}
+				&__alarm-failed {
+					padding-left: 10px;
+					color: $delete-color;
+				}
+				&::placeholder {
+					color: $secondary-font-color;
 				}
 			}
 			&-description__label {

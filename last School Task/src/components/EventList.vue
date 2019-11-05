@@ -1,12 +1,12 @@
 <template>
 
-	<div class="current-event-list-contaiter">
-		<div class="current-event-list-options">
-			<router-link to="/create-event">
-				<button class="create-event__option-button">+ Добавить событие</button>
+	<div class="event-list-contaiter">
+		<div class="event-list-options">
+			<router-link to="/event-create">
+				<button class="event-create__option-button">+ Добавить событие</button>
 			</router-link>
 			<filterButton />
-		</div>	
+		</div>
 
 		<div class="events-container">
 			<event v-for="(item, i) in data" :key="i"
@@ -16,7 +16,7 @@
 
 		<div class="page-buttons">
 			<pageButtons />
-		</div>	
+		</div>
 	</div>
 
 </template>
@@ -31,7 +31,10 @@
 
 
 	export default {
-		name: 'currentEventList',
+		name: 'eventList',
+		props: {
+			conditionProp: String
+		},
 		computed: {
 			...mapGetters([
 				'data', 'page', 'limit', 'fullDataLength'
@@ -58,7 +61,7 @@
 
 <style lang="scss">
 	@import '../helpers/common-styles.scss';
-	.current-event-list-options {
+	.event-list-options {
 		display: flex;
 		justify-content: space-between;
 		padding: 20px 0;
@@ -73,7 +76,7 @@
 			margin-bottom: 0;
 		}
 	}
-	.create-event__option-button {
+	.event-create__option-button {
 		color: #fff;
 		background: $additional-background-button-color;
 		padding: 10px 20px;

@@ -1,15 +1,38 @@
 <template>
 
 	<div class="nav_wrapper">
-		<div class="nav">
-			<div class="nav__links">
-				<router-link to="/past-events"> Прошедшие </router-link>
-				<router-link to="/current-events"> Текущие </router-link>
-				<router-link to="/nearest-events"> Ближайшие </router-link>
+		<nav class="navigation">
+			<div class="navigation__link-container">
+				<router-link :to="{ 
+					path: '/events/past',
+					params: {
+						conditionProp: 'someParam'
+					}
+				}"
+				class="navigation__link">
+					Прошедшие 
+				</router-link>
+				<router-link :to="{ 
+					path: '/events/current',
+					params: {
+						conditionProp: 'someParam'
+					}
+				}"
+				class="navigation__link">
+					Текущие
+				</router-link>
+				<router-link :to="{ 
+					path: '/events/nearest',
+					params: {
+						conditionProp: 'someParam'
+					}
+				}"
+				class="navigation__link">
+					Ближайшие
+				</router-link>
 			</div>
 			<search />
-		</div>
-		<router-view />
+		</nav>
 	</div>
 
 </template>
@@ -29,8 +52,9 @@
 
 <style lang="scss">
 @import '../helpers/common-styles.scss';
-	.nav {
+	.navigation {
 		display: flex;
 		justify-content: space-between;
+		box-shadow: 0 5px 5px -5px #333;
 	}
 </style>

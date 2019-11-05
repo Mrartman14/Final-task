@@ -12,7 +12,7 @@ let store = new Vuex.Store({
 		queryParams: {
 			page: 1,
 			limit: 5,
-			searchParam: ``,
+			searchParam: ``,//[['Дате', 'dete'], ['Заголовкам', 'title'], ['Описанию', 'description']]
 			search: `?search=`,
 			sort: `&sortBy=dete&order=desc`,
 			pagination: `&page=1&limit=`
@@ -104,6 +104,21 @@ let store = new Vuex.Store({
 				console.log(error);
 			})
 		},
+
+		DELETE: ({ dispatch }, event) => {
+			axios
+			.delete(`${this.a.getters.defaultQuery}/79`)
+			.then(() => {
+				dispatch('getFullDataLength');
+				dispatch('doNewGetQuery', { value: this.a.getters.buildQuery });
+			})
+			.catch((error) => {
+				console.log(error);
+			})
+		},
+
+
+
 		deleteComment: ({ dispatch }, event) => {
 			axios
 			.delete(`${this.a.getters.defaultQuery}/${event.id}/comments/${event.commentId}`)
