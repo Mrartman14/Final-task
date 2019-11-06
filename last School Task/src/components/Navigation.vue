@@ -3,33 +3,43 @@
 	<div class="nav_wrapper">
 		<nav class="navigation">
 			<div class="navigation__link-container">
-				<router-link :to="{ 
+				<!-- <router-link :to="{ 
 					path: '/events/past',
-					params: {
-						conditionProp: 'someParam'
-					}
+					/*params: {
+						eventDateCondition: '123'
+					}*/
 				}"
 				class="navigation__link">
 					Прошедшие 
 				</router-link>
 				<router-link :to="{ 
 					path: '/events/current',
-					params: {
-						conditionProp: 'someParam'
-					}
+					/*params: {
+						eventDateCondition: '456'
+					}*/
 				}"
 				class="navigation__link">
 					Текущие
 				</router-link>
 				<router-link :to="{ 
 					path: '/events/nearest',
-					params: {
-						conditionProp: 'someParam'
-					}
+					/*params: {
+						eventDateCondition: '789'
+					}*/
 				}"
 				class="navigation__link">
 					Ближайшие
-				</router-link>
+				</router-link> -->
+
+				<router-link to='/events/current'> Текущие </router-link>
+
+
+
+
+
+
+
+
 			</div>
 			<search />
 		</nav>

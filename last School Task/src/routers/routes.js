@@ -6,8 +6,6 @@ import eventCreate from '../components/EventCreate';
 import eventInfo from '../components/EventInfo';
 import Layout from '../components/Layout';
 
-
-
 Vue.use(VueRouter);
 
 let routes = [
@@ -16,28 +14,44 @@ let routes = [
 		redirect: '/events',
 		component: Layout,
 		children: [
+			// {
+			// 	path:'events',
+			// 	component: eventList,
+			// 	redirect: '/events/current',
+			// 	children: [
+			// 		{
+			// 			path:'past',
+			// 			component: eventList,
+			// 			props: {
+			// 				eventDateCondition: 'test1'
+			// 			}
+			// 		},
+			// 		{
+			// 			path:'current',
+			// 			component: eventList,
+			// 			props: {
+			// 				eventDateCondition: 'test2'
+			// 			}
+			// 		},
+			// 		{
+			// 			path:'nearest',
+			// 			component: eventList,
+			// 			props: {
+			// 				eventDateCondition: 'test3'
+			// 			}
+			// 		}
+			// 	]
+			// },
 			{
-				path:'events',
+				path:'events/current',
 				component: eventList,
-				redirect: '/events/current',
-				children: [
-					{
-						path:'past',
-						component: eventList,
-						props: true
-					},
-					{
-						path:'current',
-						component: eventList,
-						props: true
-					},
-					{
-						path:'nearest',
-						component: eventList,
-						props: true
-					}
-				]
+				props: {
+					eventDateCondition: 'test'
+				}
 			},
+
+
+
 			{
 				path: '/event-create',
 				component: eventCreate

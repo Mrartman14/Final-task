@@ -33,7 +33,7 @@
 	export default {
 		name: 'eventList',
 		props: {
-			conditionProp: String
+			eventDateCondition: String//past, current or nearest
 		},
 		computed: {
 			...mapGetters([
@@ -43,7 +43,7 @@
 		methods: {
 			...mapActions([
 				'createPaginationQuery'
-			])
+			]),
 		},
 		components: {
 			event: event,
@@ -53,7 +53,8 @@
 		mounted() {
 			this.createPaginationQuery({ //делает самый первый запрос
 				pagination: `&page=${this.page}&limit=${this.limit}`,
-				currentPage: this.page
+				currentPage: this.page,
+				requiredData: this.eventDateCondition
 			})
 		}
 	};
@@ -68,7 +69,6 @@
 	}
 	.event-wrapper {
 		margin: 10px 0;
-		
 		&:first-child {
 			margin-top: 0;
 		}

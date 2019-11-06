@@ -53,7 +53,7 @@
 				title: '',
 				description: '',
 				date: '',
-				dateNow: new Date().toLocaleString("ru", {day:"numeric", month:"numeric", year:"numeric"}),
+				dateNow: new Date().toLocaleString('ru', {day: 'numeric', month: 'numeric', year: 'numeric'}),
 				alarm: '',
 				alarmClass: ''
 			}
@@ -64,23 +64,25 @@
 			]),
 			createEvent() {
 				let newEvent = {
-					dete: new Date(this.date),
+					//dete: new Date(this.date).toISOString(), //2019-12-19T23:20:02.356Z
 					title: this.title,
 					description: this.description,
-					important: true,
+					//important: true,
 					comments: [],
 					user: {},
 				};
 				this.addEvent(newEvent);
+				//console.log(newEvent);
 			},
 			dateValidation() {
 				let valid = this.date.match(/([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4})/);
 				if(valid !== null) {
+					this.date = `${valid[2]}.${valid[1]}.${valid[3]}`;
 					this.createEvent();
 					this.date = ''; this.title = ''; this.description = '';
 					this.alarm = 'Ваше событие успешно создано';
 					this.alarmClass = 'event-create__input-date__alarm-complited';
-				}else {
+				} else {
 					this.alarmClass = 'event-create__input-date__alarm-failed';
 					this.alarm = `Введите дату формата ${this.dateNow}`;
 				}
