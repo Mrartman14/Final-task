@@ -1,6 +1,9 @@
 <template>
 	<div class="search">
-		<button v-if="searchExistence" @click="reset()" class="search__reset">
+		<button
+		v-if="searchParamExist"
+		@click="reset()"
+		class="search__reset">
 			Поиск по: {{ searchParam }}
 		</button>
 
@@ -8,49 +11,48 @@
 		placeholder="Поиск..."
 		class="search__input"
 		v-model="searchValue"
-		@keyup.enter="search()">
+		@keyup.enter="searchCreate()"><!--сделать ленивый v-model -->
 	</div>
 </template>
 
 <script>
 
+	import axios from 'axios';
 	import { mapActions, mapGetters } from 'vuex';
 
 	export default {
 		name: 'search',
 		data() {
 			return {
-				searchValue: ``,
-				searchExistence: false
+				searchValue: '',
 			}
 		},
 		computed: {
 			...mapGetters([
-				'searchParam'
-			])
+				'search', 'searchParam', 'sort', 'sortParam'
+			]),
+			searchParamExist() {
+				if(this.searchParam === '') {
+					return false
+				}else return true
+			}
 		},
 		methods: {
 			...mapActions([
-				'createSearchQuery'
+				'setQueryParams'
 			]),
-			checksearchExistence() {
-				if(this.searchParam !== ``) {
-					this.searchExistence = true;
-				}
-			},
-			search() {
-				this.createSearchQuery({
+			searchCreate() {
+				this.setQueryParams({
 					search: `?search=${this.searchValue}`,
-					searchParam: this.searchValue
-				});
-				this.checksearchExistence();
-				//и команду на то чтобы убрать фокус с инпута
-				this.searchValue = ''; 
+					searchParam: this.searchValue,
+					sort: this.sort,
+					sortParam: this.sortParam
+				})
+				this.searchValue = '';
 			},
 			reset() {
 				this.searchValue = ``;
-				this.search();
-				this.searchExistence = false;
+				this.searchCreate();
 			}
 		}
 	}

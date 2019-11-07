@@ -43,13 +43,26 @@ let routes = [
 			// 	]
 			// },
 			{
+				path:'events/past',
+				component: eventList,
+				props: {
+					sortByDateType: [-200, 0]//все прошедшие ивенты
+				}
+			},
+			{
 				path:'events/current',
 				component: eventList,
 				props: {
-					eventDateCondition: 'test'
+					sortByDateType: [0, 200]//все текущие ивенты
 				}
 			},
-
+			{
+				path:'events/nearest',
+				component: eventList,
+				props: {
+					sortByDateType: [0, 6]//все ивенты в ближайшие полгода
+				}
+			},
 
 
 			{

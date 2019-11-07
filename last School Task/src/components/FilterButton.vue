@@ -1,14 +1,15 @@
 <template>
 
 	<button @click="changeSortType()" class="option-button">
-		Сортировать по: {{ sortBy[index][0] }}
+		Сортировать по: {{ sortBy[sortParam][0] }}
 	</button>
 
 </template>
 
 <script>
 
-	import { mapActions } from 'vuex';
+	import axios from 'axios';
+	import { mapActions, mapGetters } from 'vuex';
 
 	export default {
 		name: 'filterButton',
@@ -18,21 +19,28 @@
 					['Дате', 'dete'],
 					['Заголовкам', 'title'], 
 					['Описанию', 'description']
-				],
-				index: 0
+				]
 			}
+		},
+		computed: {
+			...mapGetters([
+				'sortParam', 'search', 'searchParam'
+			])
 		},
 		methods: {
 			...mapActions([
-				'createSortQuery'
+				'setQueryParams'
 			]),
 			changeSortType() {
-				this.index += 1;
-				if(this.index > (this.sortBy.length - 1)) {
-					this.index = 0;
+				let shadowSortParam = this.sortParam + 1;
+				if(shadowSortParam + 1 > this.sortBy.length) {
+					shadowSortParam = 0
 				}
-				this.createSortQuery({
-					sort: `&sortBy=${this.sortBy[this.index][1]}&order=${this.sortBy[this.index][1]}`
+				this.setQueryParams({
+					search: this.search,
+					searchParam: this.searchParam,
+					sort: `&sortBy=${this.sortBy[shadowSortParam][1]}&order=${this.sortBy[shadowSortParam][1]}`,
+					sortParam: shadowSortParam
 				})
 			}
 		}

@@ -44,7 +44,7 @@
 
 <script>
 
-	import { mapActions } from 'vuex';
+	import { mapActions, mapGetters } from 'vuex';
 
 	export default {
 		name: 'eventCreate',
@@ -58,9 +58,14 @@
 				alarmClass: ''
 			}
 		},
+		computed: {
+			...mapGetters([
+				'defaultQuery'
+			])
+		},
 		methods: {
 			...mapActions([
-				'addEvent'
+				'postQuery'
 			]),
 			createEvent() {
 				let newEvent = {
@@ -71,14 +76,14 @@
 					comments: [],
 					user: {},
 				};
-				this.addEvent(newEvent);
+				this.postQuery({ query: this.defaultQuery, value: newEvent});
 				//console.log(newEvent);
 			},
 			dateValidation() {
 				let valid = this.date.match(/([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4})/);
 				if(valid !== null) {
 					this.date = `${valid[2]}.${valid[1]}.${valid[3]}`;
-					this.createEvent();
+					this.createEvent(); //может часть из этого можно перенести в computed?
 					this.date = ''; this.title = ''; this.description = '';
 					this.alarm = 'Ваше событие успешно создано';
 					this.alarmClass = 'event-create__input-date__alarm-complited';
@@ -90,9 +95,6 @@
 			goBack() {
 				this.$router.go(-1);
 			}
-		},
-		mounted() {
-			//this.$store.dispatch('DELETE');
 		}
 	};
 	

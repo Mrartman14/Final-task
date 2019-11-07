@@ -22,12 +22,12 @@
 		name: 'PageButtons',
 		computed: {
 			...mapGetters([
-				'fullDataLength', 'page', 'limit'
+				'data'
 			])
 		},
 		methods: {
 			...mapActions([
-				'getFullDataLength', 'createPaginationQuery'
+				//????
 			]),
 			pagination(pageNumber) {
 				if(pageNumber < 1) {
@@ -35,15 +35,10 @@
 				}else if(pageNumber > this.numberOfbuttons().length) {
 					pageNumber = this.numberOfbuttons().length;
 				}
-				this.createPaginationQuery({
-					pagination: `&page=${pageNumber}&limit=${this.limit}`,
-					currentPage: pageNumber
-				})
 			},
 			numberOfbuttons() {
-				this.getFullDataLength();
 				let buttonCount = [];
-				buttonCount.length = Math.ceil(this.fullDataLength / this.limit);
+				//buttonCount.length = Math.ceil(this.data.length / this.limit);
 				return buttonCount
 			},
 			buttonClass(i) {

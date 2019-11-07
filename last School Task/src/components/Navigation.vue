@@ -31,14 +31,9 @@
 					Ближайшие
 				</router-link> -->
 
+				<router-link to='/events/past'> Прошедшие </router-link>
 				<router-link to='/events/current'> Текущие </router-link>
-
-
-
-
-
-
-
+				<router-link to='/events/nearest'> Ближайшие </router-link>
 
 			</div>
 			<search />

@@ -11,7 +11,11 @@
 			}">
 				<h1 class="event__title">{{ data[dataIndex].title }}</h1> 
 			</router-link>
-			<button class="event__delete" @click="deleteEvent( {id: data[dataIndex].id} )">Удалить</button>
+
+			<button class="event__delete"
+			@click="deleteQuery(`${defaultQuery}/${data[dataIndex].id}`)">
+				Удалить
+			</button>
 		</div>
 		<p class="event__description">{{ data[dataIndex].description }}</p>
 		<div class="event__info">
@@ -35,15 +39,16 @@
 		},
 		computed: {
 			...mapGetters([
-				'data'
+				'data', 'defaultQuery'
 			]),
 		},
 		methods: {
 			...mapActions([
-				'deleteEvent'
+				//'deleteEvent'
+				'deleteQuery'
 			]),
 			validDate(date) {
-				return validDate(date);
+				return validDate(date);//может это можно удалить вообще полностью
 			}
 		}
 	};

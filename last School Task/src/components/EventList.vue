@@ -8,8 +8,8 @@
 			<filterButton />
 		</div>
 
-		<div class="events-container">
-			<event v-for="(item, i) in data" :key="i"
+		<div class="events-container"><!-- filteredData -->
+			<event v-for="(item, i) in filteredData" :key="i"
 			:dataIndex = i
 			class="event-wrapper"/>
 		</div>
@@ -33,16 +33,26 @@
 	export default {
 		name: 'eventList',
 		props: {
-			eventDateCondition: String//past, current or nearest
+			sortByDateType: Array
 		},
 		computed: {
 			...mapGetters([
-				'data', 'page', 'limit', 'fullDataLength'
-			])
+				'data'
+			]),
+			filteredData() {
+				let minDate = new Date();
+				minDate.setMonth(minDate.getMonth() + this.sortByDateType[0]);
+				let maxDate = new Date();
+				maxDate.setMonth(maxDate.getMonth() + this.sortByDateType[1]);
+				let filteredData = this.data.filter((event) => {
+					return event.dete > minDate.toISOString() && event.dete < maxDate.toISOString() ? true : false
+				})
+				return filteredData
+			}
 		},
 		methods: {
 			...mapActions([
-				'createPaginationQuery'
+				'getQuery', 'setSortByDate'
 			]),
 		},
 		components: {
@@ -51,11 +61,8 @@
 			pageButtons: pageButtons
 		},
 		mounted() {
-			this.createPaginationQuery({ //делает самый первый запрос
-				pagination: `&page=${this.page}&limit=${this.limit}`,
-				currentPage: this.page,
-				requiredData: this.eventDateCondition
-			})
+			this.getQuery();
+			//console.log(this.sortByDateType);
 		}
 	};
 </script>

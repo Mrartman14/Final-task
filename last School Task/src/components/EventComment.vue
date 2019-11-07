@@ -17,10 +17,11 @@
 		</div>
 		<p class="event__comment__text">{{ data[dataIndex].comments[commentIndex].text }}</p>
 		<div class="event__comment__delete-wrapper">
-			<button @click="deleteComment({
-				id: data[dataIndex].id, 
-				commentId: data[dataIndex].comments[commentIndex].id,})"
-			class="event__comment__delete">Удалить</button>
+			<button
+			@click="deleteQuery(`${defaultQuery}/${data[dataIndex].id}/comments/${data[dataIndex].comments[commentIndex].id}`)"
+			class="event__comment__delete">
+				Удалить
+			</button>
 		</div>	
 	</div>
 
@@ -40,12 +41,12 @@
 		},
 		computed: {
 			...mapGetters([
-				'data'
+				'data', 'defaultQuery'
 			])
 		},
 		methods: {
 			...mapActions([
-				'deleteComment'
+				'deleteQuery'
 			]),
 			validDate(date) {
 				return validDate(date);
