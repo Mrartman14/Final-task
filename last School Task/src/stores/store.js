@@ -6,6 +6,8 @@ Vue.use(Vuex, axios);
 let store = new Vuex.Store({
 	state: {
 		data: [],
+		currentPage: 1,
+		contentLimit: 5,
 		defaultQuery: `http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events`,
 		buildQuery: ``,
 		queryParams: {
@@ -17,6 +19,8 @@ let store = new Vuex.Store({
 	},
 	getters: {
 		data: state => state.data,
+		currentPage: state => state.currentPage,
+		contentLimit: state => state.contentLimit,
 		defaultQuery: state => state.defaultQuery,
 		buildQuery: state => state.buildQuery,
 		searchParam: state => state.queryParams.searchParam,
@@ -36,14 +40,17 @@ let store = new Vuex.Store({
 			state.queryParams.searchParam = params.searchParam
 			state.queryParams.sort = params.sort;
 			state.queryParams.sortParam = params.sortParam;
+		},
+		SET_CURRENT_PAGE(state, num) {
+			state.currentPage = num;
 		}
 	},
 	actions: {
-		setQueryParams( { commit, dispatch }, params ) {
+		setQueryParams({ commit, dispatch }, params) {
 			commit('SET_QUERY_PARAMS', params);
 			dispatch('getQuery');
 		},
-		getQuery( { commit } ) {
+		getQuery({ commit }) {
 			commit('BUILD_NEW_GET_QUERY');
 							console.log(this.getters.buildQuery);
 			axios.get(this.getters.buildQuery)
@@ -51,17 +58,20 @@ let store = new Vuex.Store({
 				commit('SET_DATA', response.data);
 			})
 		},
-		postQuery: ({ dispatch }, post) => {
+		postQuery({ dispatch }, post) {
 			axios.post(post.query, post.value)
 			.then(() => {
 				dispatch('getQuery');
 			})
 		},
-		deleteQuery: ( { dispatch }, query) => {
+		deleteQuery({ dispatch }, query) {
 			axios.delete(query)
 			.then(() => {
 				dispatch('getQuery');
 			})
+		},
+		setCurrentPage({ commit }, num) {
+			commit('SET_CURRENT_PAGE', num);
 		}
 	}
 })

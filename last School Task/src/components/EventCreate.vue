@@ -53,7 +53,7 @@
 				title: '',
 				description: '',
 				date: '',
-				dateNow: new Date().toLocaleString('ru', {day: 'numeric', month: 'numeric', year: 'numeric'}),
+				dateNow: new Date().toLocaleString('ru', { day: 'numeric', month: 'numeric', year: 'numeric' }),
 				alarm: '',
 				alarmClass: ''
 			}
@@ -69,21 +69,21 @@
 			]),
 			createEvent() {
 				let newEvent = {
-					//dete: new Date(this.date).toISOString(), //2019-12-19T23:20:02.356Z
+					dete: new Date(this.date).toISOString(), //2019-12-19T23:20:02.356Z
 					title: this.title,
 					description: this.description,
 					//important: true,
 					comments: [],
 					user: {},
 				};
-				this.postQuery({ query: this.defaultQuery, value: newEvent});
-				//console.log(newEvent);
+				this.postQuery({ query: this.defaultQuery, value: newEvent });
+				console.log(newEvent.dete);
 			},
 			dateValidation() {
 				let valid = this.date.match(/([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4})/);
 				if(valid !== null) {
 					this.date = `${valid[2]}.${valid[1]}.${valid[3]}`;
-					this.createEvent(); //может часть из этого можно перенести в computed?
+					this.createEvent();
 					this.date = ''; this.title = ''; this.description = '';
 					this.alarm = 'Ваше событие успешно создано';
 					this.alarmClass = 'event-create__input-date__alarm-complited';
@@ -103,7 +103,7 @@
 <style lang="scss">
 @import '../helpers/common-styles.scss';
 	
-	.event-create{
+	.event-create {
 		&__heading {
 			font-size: 1.3em;
 			font-weight: bold;

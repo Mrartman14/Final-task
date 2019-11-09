@@ -23,22 +23,22 @@ let routes = [
 			// 			path:'past',
 			// 			component: eventList,
 			// 			props: {
-			// 				eventDateCondition: 'test1'
+			// 				sortByDateType: [-1000, 0]
 			// 			}
 			// 		},
 			// 		{
 			// 			path:'current',
 			// 			component: eventList,
 			// 			props: {
-			// 				eventDateCondition: 'test2'
-			// 			}
+			//				sortByDateType: [0, 1000]//все текущие ивенты
+			//			}
 			// 		},
 			// 		{
 			// 			path:'nearest',
 			// 			component: eventList,
 			// 			props: {
-			// 				eventDateCondition: 'test3'
-			// 			}
+			//				sortByDateType: [0, 6]//все ивенты в ближайшие полгода
+			//			}
 			// 		}
 			// 	]
 			// },
@@ -46,14 +46,14 @@ let routes = [
 				path:'events/past',
 				component: eventList,
 				props: {
-					sortByDateType: [-200, 0]//все прошедшие ивенты
+					sortByDateType: [-1000, 0]//все прошедшие ивенты
 				}
 			},
 			{
 				path:'events/current',
 				component: eventList,
 				props: {
-					sortByDateType: [0, 200]//все текущие ивенты
+					sortByDateType: [0, 1000]//все текущие ивенты
 				}
 			},
 			{

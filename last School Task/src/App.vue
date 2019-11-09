@@ -18,9 +18,4 @@
 </script>
 
 <style lang="scss">
-	@import './helpers/common-styles.scss';
-	#app {
-		max-width: 1000px;
-		margin: 0 auto;
-	}
 </style>

@@ -8,7 +8,7 @@
 					id: data[dataIndex].title,
 					dataIndex: dataIndex
 				}
-			}">
+			}" class="event__link">
 				<h1 class="event__title">{{ data[dataIndex].title }}</h1> 
 			</router-link>
 
@@ -44,7 +44,6 @@
 		},
 		methods: {
 			...mapActions([
-				//'deleteEvent'
 				'deleteQuery'
 			]),
 			validDate(date) {
@@ -65,6 +64,11 @@
 			display: flex;
 			justify-content: space-between;
 			padding-bottom: 20px;
+		}
+		&__link:hover {
+			.event__title {
+				opacity: 0.6;
+			}
 		}
 		&__title {
 			font-weight: bold;

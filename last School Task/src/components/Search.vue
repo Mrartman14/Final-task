@@ -64,6 +64,7 @@
 	.search {
 		display: flex;
 		align-items: center;
+		padding-right: 10px;
 		&__input {
 			border: none;
 			padding: 4px 0 4px 25px;

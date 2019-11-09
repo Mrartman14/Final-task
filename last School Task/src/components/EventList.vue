@@ -8,14 +8,14 @@
 			<filterButton />
 		</div>
 
-		<div class="events-container"><!-- filteredData -->
-			<event v-for="(item, i) in filteredData" :key="i"
+		<div class="events-container">
+			<event v-for="(item, i) in filteredData.data" :key="i"
 			:dataIndex = i
 			class="event-wrapper"/>
 		</div>
 
 		<div class="page-buttons">
-			<pageButtons />
+			<pageButtons :numOfButtons="numOfButtons"/>
 		</div>
 	</div>
 
@@ -36,33 +36,46 @@
 			sortByDateType: Array
 		},
 		computed: {
-			...mapGetters([
-				'data'
+			...mapGetters([//ЕСЛИ СТРАНИЦА ПУСТА, ТО ПЕРЕХОД НА ПОСЛЕДНЮЮ СТРАНИЦУ
+				'data', 'contentLimit', 'currentPage'
 			]),
-			filteredData() {
+			eventsRange() {
+				return [this.contentLimit * this.currentPage - (this.contentLimit - 1), this.contentLimit * this.currentPage]
+			},
+			minDate() {
 				let minDate = new Date();
 				minDate.setMonth(minDate.getMonth() + this.sortByDateType[0]);
+				return minDate
+			},
+			maxDate() {
 				let maxDate = new Date();
 				maxDate.setMonth(maxDate.getMonth() + this.sortByDateType[1]);
+				return maxDate
+			},
+			filteredData() {
 				let filteredData = this.data.filter((event) => {
-					return event.dete > minDate.toISOString() && event.dete < maxDate.toISOString() ? true : false
-				})
-				return filteredData
+					return event.dete > this.minDate.toISOString() && event.dete < this.maxDate.toISOString() ? true : false
+				});
+				let result = filteredData.slice((this.contentLimit * this.currentPage) - this.contentLimit, this.contentLimit * this.currentPage);
+				//console.log(result);
+				return { data: result, fullLength: filteredData.length }
+			},
+			numOfButtons() {
+				return Math.ceil(this.filteredData.fullLength / this.contentLimit);
 			}
 		},
 		methods: {
 			...mapActions([
-				'getQuery', 'setSortByDate'
-			]),
+				'getQuery'
+			])
 		},
 		components: {
-			event: event,
-			filterButton: filterButton,
-			pageButtons: pageButtons
+			event,
+			filterButton,
+			pageButtons
 		},
 		mounted() {
 			this.getQuery();
-			//console.log(this.sortByDateType);
 		}
 	};
 </script>
@@ -72,7 +85,7 @@
 	.event-list-options {
 		display: flex;
 		justify-content: space-between;
-		padding: 20px 0;
+		padding: 15px 0 25px 0;
 	}
 	.event-wrapper {
 		margin: 10px 0;
@@ -87,8 +100,11 @@
 		color: #fff;
 		background: $additional-background-button-color;
 		padding: 10px 20px;
-		border: none;
+		border: 1px solid $additional-background-button-color;
 		border-radius: 20px;
+		&:hover {
+			transform: scale(1.01);
+		}
 	}
 	.page-buttons {
 		display: flex;

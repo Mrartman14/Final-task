@@ -1,15 +1,15 @@
 <template>
 
 	<div class="btn_container">
-		<button @click="pagination( (page - 1) )" class="page-button">Туда</button> 
+		<button @click="pagination( (currentPage - 1) )" class="page-button">Сюда</button> 
 
-		<button v-for="(item, i) in numberOfbuttons()" :key="i" 
+		<button v-for="(item, i) in numOfButtons" :key="i" 
 		@click="pagination( (i + 1) )"
 		:class="buttonClass(i)">
 			{{ i + 1 }}
 		</button>
 
-		<button @click="pagination( (page + 1) )" class="page-button">Сюда</button>
+		<button @click="pagination( (currentPage + 1) )" class="page-button">Туда</button>
 	</div>
 
 </template>
@@ -20,38 +20,33 @@
 
 	export default {
 		name: 'PageButtons',
+		props: {
+			numOfButtons: Number
+		},
 		computed: {
 			...mapGetters([
-				'data'
+				'data', 'currentPage'
 			])
 		},
 		methods: {
 			...mapActions([
-				//????
+				'setCurrentPage'
 			]),
 			pagination(pageNumber) {
 				if(pageNumber < 1) {
 					pageNumber = 1;
-				}else if(pageNumber > this.numberOfbuttons().length) {
-					pageNumber = this.numberOfbuttons().length;
 				}
-			},
-			numberOfbuttons() {
-				let buttonCount = [];
-				//buttonCount.length = Math.ceil(this.data.length / this.limit);
-				return buttonCount
+				if(pageNumber > this.numOfButtons) {
+					pageNumber = this.numOfButtons;
+				}
+				this.setCurrentPage(pageNumber);
 			},
 			buttonClass(i) {
-				if((i + 1) === this.page) {
-					return `page-button page-button-created page-button-active`
-				}else return `page-button page-button-created`
+				return (i + 1) === this.currentPage ? `page-button page-button-created page-button-active` : `page-button page-button-created`
 			}
-		},
-		mounted() {
-			this.numberOfbuttons();
 		}
-		
 	};
+
 </script>
 
 <style lang="scss">
@@ -61,14 +56,14 @@
 	}
 	.page-button {
 		box-shadow: $box-shadow;
-		padding: 5px;
+		padding: 10px;
 		margin: 0 5px;
 		background: $primary-background-button-color;
 		border: 1px solid #000;
 		border-radius: 5px;
 	}
 	.page-button-created{
-		padding: 5px 10px;
+		padding: 10px 15px;
 	}
 	.page-button-active {
 		background: $secondary-background-button-color;

@@ -19,6 +19,9 @@
 		&-wrapper {
 			padding: 20px 0 30px 27px;
 		}
+		&:hover {
+			opacity: 0.6;
+		}
 		&:before {
 			content: '<';
 			display: flex;

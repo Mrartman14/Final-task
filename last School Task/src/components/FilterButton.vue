@@ -44,7 +44,6 @@
 				})
 			}
 		}
-
 	}
 
 </script>
@@ -57,5 +56,9 @@
 		background: $primary-background-button-color;
 		border: 1px solid #000;
 		border-radius: 20px;
+		&:hover {
+			color: $secondary-font-color;
+			border: 1px solid $secondary-font-color;
+		}
 	}
 </style>
