@@ -5,22 +5,22 @@
 			<router-link :to="{ 
 				name: 'eventInfo',
 				params: {
-					id: data[dataIndex].title,
-					dataIndex: dataIndex
+					id: item.title,
+					item: item
 				}
 			}" class="event__link">
-				<h1 class="event__title">{{ data[dataIndex].title }}</h1> 
+				<h1 class="event__title">{{ item.title }}</h1>
 			</router-link>
 
 			<button class="event__delete"
-			@click="deleteQuery(`${defaultQuery}/${data[dataIndex].id}`)">
+			@click="deleteQuery(`${defaultQuery}/${item.id}`)">
 				Удалить
 			</button>
 		</div>
-		<p class="event__description">{{ data[dataIndex].description }}</p>
+		<p class="event__description">{{ item.description }}</p>
 		<div class="event__info">
-			<span class="event__date">Дата публикации: {{ validDate(data[dataIndex].dete) }}</span>
-			<span class="event__comments">Комментарии: {{ data[dataIndex].comments.length }}</span>
+			<span class="event__date">Дата публикации: {{ validDate(item.dete) }}</span>
+			<span class="event__comments">Комментарии: {{ item.comments.length }}</span>
 		</div>
 	</div>
 
@@ -35,7 +35,7 @@
 	export default {
 		name: 'Event',
 		props: {
-			dataIndex: Number
+			item: Object
 		},
 		computed: {
 			...mapGetters([

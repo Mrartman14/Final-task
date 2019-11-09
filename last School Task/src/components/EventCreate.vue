@@ -54,8 +54,8 @@
 				description: '',
 				date: '',
 				dateNow: new Date().toLocaleString('ru', { day: 'numeric', month: 'numeric', year: 'numeric' }),
-				alarm: '',
-				alarmClass: ''
+				alarm: 'Нажмите Enter для отправки',
+				alarmClass: 'event-create__input-date__alarm'
 			}
 		},
 		computed: {
@@ -69,10 +69,10 @@
 			]),
 			createEvent() {
 				let newEvent = {
-					dete: new Date(this.date).toISOString(), //2019-12-19T23:20:02.356Z
+					dete: new Date(this.date),
 					title: this.title,
 					description: this.description,
-					//important: true,
+					important: true,
 					comments: [],
 					user: {},
 				};
@@ -88,6 +88,7 @@
 					this.alarm = 'Ваше событие успешно создано';
 					this.alarmClass = 'event-create__input-date__alarm-complited';
 				} else {
+					this.date = '';
 					this.alarmClass = 'event-create__input-date__alarm-failed';
 					this.alarm = `Введите дату формата ${this.dateNow}`;
 				}
@@ -152,6 +153,10 @@
 				border-radius: 8px;
 				background: none;
 				width: 100px;
+				&__alarm {
+					padding-left: 10px;
+					color: $secondary-font-color;
+				}
 				&__alarm-complited {
 					color: $additional-background-button-color;
 				}

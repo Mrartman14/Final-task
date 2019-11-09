@@ -11,37 +11,9 @@ Vue.use(VueRouter);
 let routes = [
 	{
 		path: '/',
-		redirect: '/events',
+		redirect: '/events/current',
 		component: Layout,
 		children: [
-			// {
-			// 	path:'events',
-			// 	component: eventList,
-			// 	redirect: '/events/current',
-			// 	children: [
-			// 		{
-			// 			path:'past',
-			// 			component: eventList,
-			// 			props: {
-			// 				sortByDateType: [-1000, 0]
-			// 			}
-			// 		},
-			// 		{
-			// 			path:'current',
-			// 			component: eventList,
-			// 			props: {
-			//				sortByDateType: [0, 1000]//все текущие ивенты
-			//			}
-			// 		},
-			// 		{
-			// 			path:'nearest',
-			// 			component: eventList,
-			// 			props: {
-			//				sortByDateType: [0, 6]//все ивенты в ближайшие полгода
-			//			}
-			// 		}
-			// 	]
-			// },
 			{
 				path:'events/past',
 				component: eventList,

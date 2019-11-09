@@ -6,18 +6,18 @@
 		</div>	
 		<div class="event">
 			<div class="event__heading">
-				<h1 class="event__title">{{ data[dataIndex].title }}</h1>
-				<span class="event__date">Дата публикации: {{ validDate(data[dataIndex].dete) }}</span>
+				<h1 class="event__title">{{ item.title }}</h1>
+				<span class="event__date">Дата публикации: {{ validDate(item.dete) }}</span>
 			</div>	
 			<div class="event__info">	
-				<p class="event__text">{{ data[dataIndex].description }}</p>
+				<p class="event__text">{{ item.description }}</p>
 			</div>
 		</div>
 		<h2 class="event__comments-title">Комментарии:</h2>
-		<eventComment v-for="(comment, commentIndex) in data[dataIndex].comments" 
+		<eventComment v-for="(comment, commentIndex) in item.comments" 
 		:key="commentIndex"
 		:commentIndex="commentIndex"
-		:dataIndex="dataIndex"/>
+		:item="item"/>
 	</div>
 
 </template>
@@ -31,7 +31,7 @@
 	export default {
 		name: 'eventInfo',
 		props: {
-			dataIndex: Number
+			item: Object
 		},
 		computed: {
 			...mapGetters([

@@ -4,21 +4,19 @@
 		<div class="event__comment__info">
 			<div class="event__comment__author">
 				<div class="event__comment__author__avatar-wrapper">
-					<a href="">
-						<img :src="data[dataIndex].comments[commentIndex].avatar"
-							class="event__comment__author__avatar">
-					</a>	 
+						<img :src="item.comments[commentIndex].avatar"
+							class="event__comment__author__avatar">	 
 				</div>
 				<a href="" class="event__comment__author__name">
-					{{ data[dataIndex].comments[commentIndex].name }}
+					{{ item.comments[commentIndex].name }}
 				</a>
 			</div>
-			<div class="event__comment__date">{{ validDate(data[dataIndex].comments[commentIndex].date) }}</div>
+			<div class="event__comment__date">{{ validDate(item.comments[commentIndex].date) }}</div>
 		</div>
-		<p class="event__comment__text">{{ data[dataIndex].comments[commentIndex].text }}</p>
+		<p class="event__comment__text">{{ item.comments[commentIndex].text }}</p>
 		<div class="event__comment__delete-wrapper">
 			<button
-			@click="deleteQuery(`${defaultQuery}/${data[dataIndex].id}/comments/${data[dataIndex].comments[commentIndex].id}`)"
+			@click="deleteQuery(`${defaultQuery}/${item.id}/comments/${item.comments[commentIndex].id}`)"
 			class="event__comment__delete">
 				Удалить
 			</button>
@@ -36,8 +34,8 @@
 	export default {
 		name: 'EventComment',
 		props: {
-			dataIndex: Number,
-			commentIndex: Number
+			commentIndex: Number,
+			item: Object
 		},
 		computed: {
 			...mapGetters([
@@ -51,7 +49,7 @@
 			validDate(date) {
 				return validDate(date);
 			}
-		},
+		}
 	};
 
 </script>
@@ -76,6 +74,7 @@
 			&__avatar {
 				height: 100%;
 				width: 100%;
+				cursor: pointer;
 				&-wrapper{
 					width: 50px;
 					height: 50px;

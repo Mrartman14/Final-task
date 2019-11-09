@@ -10,8 +10,8 @@
 
 		<div class="events-container">
 			<event v-for="(item, i) in filteredData.data" :key="i"
-			:dataIndex = i
-			class="event-wrapper"/>
+			:item = item
+			class="event-wrapper" />
 		</div>
 
 		<div class="page-buttons">
@@ -53,11 +53,9 @@
 				return maxDate
 			},
 			filteredData() {
-				let filteredData = this.data.filter((event) => {
-					return event.dete > this.minDate.toISOString() && event.dete < this.maxDate.toISOString() ? true : false
-				});
+				let filteredData = this.data.filter((event) => event.dete > this.minDate.toISOString() && event.dete < this.maxDate.toISOString() ? true : false);
 				let result = filteredData.slice((this.contentLimit * this.currentPage) - this.contentLimit, this.contentLimit * this.currentPage);
-				//console.log(result);
+				// console.log(result);
 				return { data: result, fullLength: filteredData.length }
 			},
 			numOfButtons() {

@@ -3,44 +3,9 @@
 	<div class="nav-wrapper">
 		<nav class="navigation">
 			<div class="navigation__link-container">
-				<!-- <router-link :to="{ 
-					path: '/events/past',
-					/*params: {
-						eventDateCondition: '123'
-					}*/
-				}"
-				class="navigation__link">
-					Прошедшие 
-				</router-link>
-				<router-link :to="{ 
-					path: '/events/current',
-					/*params: {
-						eventDateCondition: '456'
-					}*/
-				}"
-				class="navigation__link">
-					Текущие
-				</router-link>
-				<router-link :to="{ 
-					path: '/events/nearest',
-					/*params: {
-						eventDateCondition: '789'
-					}*/
-				}"
-				class="navigation__link">
-					Ближайшие
-				</router-link> -->
-				<button @click="click(0)" :class="selected[index[0]]">
-					<router-link to='/events/past'    >Прошедшие</router-link>
-				</button>
-
-				<button @click="click(1)" :class="selected[index[1]]">
-					<router-link to='/events/current' >Текущие</router-link>
-				</button>
-
-				<button @click="click(2)" :class="selected[index[2]]">
-					<router-link to='/events/nearest' >Ближайшие</router-link>
-				</button>
+				<button v-for="(button, i) in routes" :key="i" @click="activate(i)" :class="selected[index[i]]">
+					{{ routes[i][1] }}
+				</button>	
 			</div>
 			<search />
 		</nav>
@@ -57,13 +22,15 @@
 		data() {
 			return {
 				selected: ['navigation__link', 'navigation__link navigation__link-selected'],
+				routes: [['past', 'Прошедшие'], ['current', 'Текущие'], ['nearest', 'Ближайшие']],
 				index: [0, 1, 0]
 			}
 		},
 		methods: {
-			click(i) {
+			activate(i) {
 				this.index = this.index.map((i) => i = 0);
 				this.index[i] = 1;
+				this.$router.push(`/events/${this.routes[i][0]}`);
 			}
 		},
 		components: {
@@ -85,12 +52,12 @@
 		justify-content: space-between;
 		&__link {
 			padding: 10px;
+			height: 40px;
+			width: 120px;
 			border: none;
 			background: none;
 			&:hover {
-				a{
-					color: $secondary-font-color;
-				}
+				color: $secondary-font-color;
 			}
 			&-selected {
 				background: #f0eeee;
@@ -99,6 +66,9 @@
 				display: flex;
 				align-items: stretch;
 			}
+		}
+		&__href {
+			//padding: 11px 12px;
 		}
 	}
 </style>

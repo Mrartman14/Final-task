@@ -60,7 +60,8 @@ let store = new Vuex.Store({
 		},
 		postQuery({ dispatch }, post) {
 			axios.post(post.query, post.value)
-			.then(() => {
+			.then((response) => {
+				console.log(response);
 				dispatch('getQuery');
 			})
 		},
