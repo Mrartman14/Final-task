@@ -34,7 +34,7 @@
 			v-model ="date"
 			class="event-create__input-date"
 			:placeholder="dateNow"
-			@keyup.enter="dateValidation()"
+			@keyup.enter="validation()"
 			>
 			<span :class="alarmClass"> {{ alarm }} </span>
 		</div>
@@ -47,7 +47,7 @@
 	import { mapActions, mapGetters } from 'vuex';
 
 	export default {
-		name: 'eventCreate',
+		name: 'EventCreate',
 		data() {
 			return {
 				title: '',
@@ -74,23 +74,27 @@
 					description: this.description,
 					important: true,
 					comments: [],
-					user: {},
+					user: {}
 				};
 				this.postQuery({ query: this.defaultQuery, value: newEvent });
-				console.log(newEvent.dete);
 			},
-			dateValidation() {
-				let valid = this.date.match(/([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4})/);
-				if(valid !== null) {
-					this.date = `${valid[2]}.${valid[1]}.${valid[3]}`;
-					this.createEvent();
-					this.date = ''; this.title = ''; this.description = '';
-					this.alarm = 'Ваше событие успешно создано';
-					this.alarmClass = 'event-create__input-date__alarm-complited';
-				} else {
-					this.date = '';
+			validation() {
+				if(this.title === '' || this.description === '') {
+					this.alarm = 'Придумайте название и описание Вашему событию';
 					this.alarmClass = 'event-create__input-date__alarm-failed';
-					this.alarm = `Введите дату формата ${this.dateNow}`;
+				}else {
+					let valid = this.date.match(/([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4})/);
+					if(valid !== null) {
+						this.date = `${valid[2]}.${valid[1]}.${valid[3]}`;
+						this.createEvent();
+						this.date = ''; this.title = ''; this.description = '';
+						this.alarm = 'Ваше событие успешно создано';
+						this.alarmClass = 'event-create__input-date__alarm-complited';
+					} else {
+						this.date = '';
+						this.alarmClass = 'event-create__input-date__alarm-failed';
+						this.alarm = `Введите дату формата ${this.dateNow}`;
+					}
 				}
 			},
 			goBack() {
@@ -102,8 +106,9 @@
 </script>
 
 <style lang="scss">
-@import '../helpers/common-styles.scss';
-	
+
+	@import '../helpers/common-styles.scss';
+
 	.event-create {
 		&__heading {
 			font-size: 1.3em;
@@ -156,13 +161,14 @@
 				&__alarm {
 					padding-left: 10px;
 					color: $secondary-font-color;
-				}
-				&__alarm-complited {
-					color: $additional-background-button-color;
-				}
-				&__alarm-failed {
-					padding-left: 10px;
-					color: $delete-color;
+					&-complited {
+						padding-left: 10px;
+						color: $additional-background-button-color;
+					}
+					&-failed {
+						padding-left: 10px;
+						color: $delete-color;
+					}
 				}
 				&::placeholder {
 					color: $secondary-font-color;

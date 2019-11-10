@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
-import eventList from '../components/EventList';
-import eventCreate from '../components/EventCreate';
-import eventInfo from '../components/EventInfo';
+import EventList from '../components/EventList';
+import EventCreate from '../components/EventCreate';
+import EventInfo from '../components/EventInfo';
 import Layout from '../components/Layout';
 
 Vue.use(VueRouter);
@@ -16,42 +16,38 @@ let routes = [
 		children: [
 			{
 				path:'events/past',
-				component: eventList,
+				component: EventList,
 				props: {
-					sortByDateType: [-1000, 0]//все прошедшие ивенты
+					sortByDateType: [-10000, 0]//все прошедшие эвенты
 				}
 			},
 			{
 				path:'events/current',
-				component: eventList,
+				component: EventList,
 				props: {
-					sortByDateType: [0, 1000]//все текущие ивенты
+					sortByDateType: [0, 10000]//все текущие эвенты
 				}
 			},
 			{
 				path:'events/nearest',
-				component: eventList,
+				component: EventList,
 				props: {
-					sortByDateType: [0, 6]//все ивенты в ближайшие полгода
+					sortByDateType: [0, 6]//все эвенты в ближайшие полгода
 				}
 			},
-
-
 			{
 				path: '/event-create',
-				component: eventCreate
+				component: EventCreate
 			},
 			{
 				path: '/events/:id',
-				component: eventInfo,
+				component: EventInfo,
 				name: 'eventInfo',
 				props: true
 			}
 		]
 	},
-	
 ];
-
 
 let router = new VueRouter({
 	mode: 'history',

@@ -7,7 +7,7 @@
 					{{ routes[i][1] }}
 				</button>	
 			</div>
-			<search />
+			<Search />
 		</nav>
 	</div>
 
@@ -15,7 +15,7 @@
 
 <script>
 
-	import search from './Search';
+	import Search from './Search';
 
 	export default {
 		name: 'Navigation',
@@ -34,14 +34,16 @@
 			}
 		},
 		components: {
-			search
+			Search
 		}
 	}
 
 </script>
 
 <style lang="scss">
-@import '../helpers/common-styles.scss';
+
+	@import '../helpers/common-styles.scss';
+
 	.nav-wrapper {
 		min-width: 500px;
 		max-width: 1000px;
@@ -61,14 +63,15 @@
 			}
 			&-selected {
 				background: #f0eeee;
+				&:hover {
+					color: $primary-font-color;
+				}
 			}
 			&-container {
 				display: flex;
 				align-items: stretch;
 			}
 		}
-		&__href {
-			//padding: 11px 12px;
-		}
 	}
+
 </style>

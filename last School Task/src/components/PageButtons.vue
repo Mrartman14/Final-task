@@ -1,6 +1,6 @@
 <template>
 
-	<div class="btn_container">
+	<div class="btn_container" v-if="buttonsExist">
 		<button @click="pagination( (currentPage - 1) )" class="page-button">Сюда</button> 
 
 		<button v-for="(item, i) in numOfButtons" :key="i" 
@@ -26,7 +26,10 @@
 		computed: {
 			...mapGetters([
 				'data', 'currentPage'
-			])
+			]),
+			buttonsExist() {
+				return this.numOfButtons > 1 ? true : false
+			}
 		},
 		methods: {
 			...mapActions([
@@ -50,6 +53,7 @@
 </script>
 
 <style lang="scss">
+
 @import '../helpers/common-styles.scss';
 	.btn_container {
 		padding-top: 30px;
@@ -61,11 +65,20 @@
 		background: $primary-background-button-color;
 		border: 1px solid #000;
 		border-radius: 5px;
+		&:hover {
+			color: $secondary-font-color;
+			border: 1px solid $secondary-font-color;
+		}
 	}
 	.page-button-created{
 		padding: 10px 15px;
 	}
 	.page-button-active {
 		background: $secondary-background-button-color;
+		&:hover {
+			color: $primary-font-color;
+			border: 1px solid $primary-font-color;
+		}
 	}
+
 </style>

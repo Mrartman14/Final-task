@@ -1,4 +1,5 @@
 <template>
+
 	<div class="search">
 		<button
 		v-if="searchParamExist"
@@ -11,17 +12,17 @@
 		placeholder="Поиск..."
 		class="search__input"
 		v-model="searchValue"
-		@keyup.enter="searchCreate()"><!--сделать ленивый v-model -->
+		@keyup.enter="searchCreate()">
 	</div>
+
 </template>
 
 <script>
 
-	import axios from 'axios';
 	import { mapActions, mapGetters } from 'vuex';
 
 	export default {
-		name: 'search',
+		name: 'Search',
 		data() {
 			return {
 				searchValue: '',
@@ -60,7 +61,9 @@
 </script>
 
 <style lang="scss">
-@import '../helpers/common-styles.scss';
+
+	@import '../helpers/common-styles.scss';
+
 	.search {
 		display: flex;
 		align-items: center;
@@ -98,4 +101,5 @@
 			}
 		}
 	}
+
 </style>

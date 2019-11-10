@@ -8,16 +8,15 @@
 
 <script>
 
-	import axios from 'axios';
 	import { mapActions, mapGetters } from 'vuex';
 
 	export default {
-		name: 'filterButton',
+		name: 'FilterButton',
 		data() {
 			return {
 				sortBy: [
 					['Дате', 'dete'],
-					['Заголовкам', 'title'], 
+					['Заголовкам', 'title'],
 					['Описанию', 'description']
 				]
 			}
@@ -49,7 +48,9 @@
 </script>
 
 <style lang="scss">
-@import '../helpers/common-styles.scss';
+
+	@import '../helpers/common-styles.scss';
+
 	.option-button{
 		box-sizing: border-box;
 		padding: 9px;
@@ -61,4 +62,5 @@
 			border: 1px solid $secondary-font-color;
 		}
 	}
+
 </style>

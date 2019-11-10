@@ -7,7 +7,7 @@ let store = new Vuex.Store({
 	state: {
 		data: [],
 		currentPage: 1,
-		contentLimit: 5,
+		contentLimit: 4,
 		defaultQuery: `http://5db050f78087400014d37dc5.mockapi.io/api/users/5/events`,
 		buildQuery: ``,
 		queryParams: {
@@ -52,24 +52,25 @@ let store = new Vuex.Store({
 		},
 		getQuery({ commit }) {
 			commit('BUILD_NEW_GET_QUERY');
-							console.log(this.getters.buildQuery);
 			axios.get(this.getters.buildQuery)
 			.then(response => {
 				commit('SET_DATA', response.data);
 			})
+			.catch(error => console.log(error))
 		},
 		postQuery({ dispatch }, post) {
 			axios.post(post.query, post.value)
-			.then((response) => {
-				console.log(response);
+			.then(() => {
 				dispatch('getQuery');
 			})
+			.catch(error => console.log(error))
 		},
 		deleteQuery({ dispatch }, query) {
 			axios.delete(query)
 			.then(() => {
 				dispatch('getQuery');
 			})
+			.catch(error => console.log(error))
 		},
 		setCurrentPage({ commit }, num) {
 			commit('SET_CURRENT_PAGE', num);

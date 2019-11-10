@@ -25,7 +25,9 @@
 </script>
 
 <style lang="scss">
-@import '../helpers/common-styles.scss';
+
+	@import '../helpers/common-styles.scss';
+
 	.navigation-layout {
 		overflow: hidden;
 		padding-bottom: 5px;
@@ -40,4 +42,5 @@
 		margin: 0 auto;
 		padding: 10px;
 	}
+
 </style>

@@ -5,8 +5,7 @@
 			<router-link :to="{ 
 				name: 'eventInfo',
 				params: {
-					id: item.title,
-					item: item
+					id: item.title
 				}
 			}" class="event__link">
 				<h1 class="event__title">{{ item.title }}</h1>
@@ -29,7 +28,6 @@
 <script>
 
 	import { validDate } from '../helpers/validDate';
-	import axios from 'axios';
 	import { mapGetters, mapActions } from 'vuex';
 
 	export default {
@@ -47,7 +45,7 @@
 				'deleteQuery'
 			]),
 			validDate(date) {
-				return validDate(date);//может это можно удалить вообще полностью
+				return validDate(date);
 			}
 		}
 	};
@@ -55,7 +53,9 @@
 </script>
 
 <style lang="scss">
-@import '../helpers/common-styles.scss';
+
+	@import '../helpers/common-styles.scss';
+
 	.event{
 		box-shadow: $box-shadow;
 		border-radius: 5px;
@@ -86,6 +86,10 @@
 			background: none;
 			border: none;
 			color: $delete-color;
+			&:hover {
+				opacity: 0.7;
+			}
 		}
 	}
+
 </style>

@@ -5,17 +5,17 @@
 			<router-link to="/event-create">
 				<button class="event-create__option-button">+ Добавить событие</button>
 			</router-link>
-			<filterButton />
+			<FilterButton />
 		</div>
 
 		<div class="events-container">
-			<event v-for="(item, i) in filteredData.data" :key="i"
+			<Event v-for="(item, i) in filteredData.data" :key="i"
 			:item = item
 			class="event-wrapper" />
 		</div>
 
 		<div class="page-buttons">
-			<pageButtons :numOfButtons="numOfButtons"/>
+			<PageButtons :numOfButtons="numOfButtons"/>
 		</div>
 	</div>
 
@@ -25,18 +25,17 @@
 
 	import { mapGetters, mapActions } from 'vuex';
 
-	import pageButtons from './PageButtons';
-	import event from './Event';
-	import filterButton from './FilterButton';
-
+	import PageButtons from './PageButtons';
+	import Event from './Event';
+	import FilterButton from './FilterButton';
 
 	export default {
-		name: 'eventList',
+		name: 'EventList',
 		props: {
 			sortByDateType: Array
 		},
 		computed: {
-			...mapGetters([//ЕСЛИ СТРАНИЦА ПУСТА, ТО ПЕРЕХОД НА ПОСЛЕДНЮЮ СТРАНИЦУ
+			...mapGetters([
 				'data', 'contentLimit', 'currentPage'
 			]),
 			eventsRange() {
@@ -53,10 +52,13 @@
 				return maxDate
 			},
 			filteredData() {
-				let filteredData = this.data.filter((event) => event.dete > this.minDate.toISOString() && event.dete < this.maxDate.toISOString() ? true : false);
-				let result = filteredData.slice((this.contentLimit * this.currentPage) - this.contentLimit, this.contentLimit * this.currentPage);
-				// console.log(result);
-				return { data: result, fullLength: filteredData.length }
+				let filteredData = this.data.filter((event) => event.dete > this.minDate.toISOString() && event.dete < this.maxDate.toISOString());
+				let paginatedData = filteredData.slice((this.contentLimit * this.currentPage) - this.contentLimit, this.contentLimit * this.currentPage);
+				if(paginatedData.length === 0 && this.currentPage !== 1) {
+					this.setCurrentPage(this.currentPage - 1);
+					this.getQuery();
+				}
+				return { data: paginatedData, fullLength: filteredData.length }
 			},
 			numOfButtons() {
 				return Math.ceil(this.filteredData.fullLength / this.contentLimit);
@@ -64,13 +66,13 @@
 		},
 		methods: {
 			...mapActions([
-				'getQuery'
+				'getQuery', 'setCurrentPage'
 			])
 		},
 		components: {
-			event,
-			filterButton,
-			pageButtons
+			Event,
+			FilterButton,
+			PageButtons
 		},
 		mounted() {
 			this.getQuery();
@@ -79,7 +81,9 @@
 </script>
 
 <style lang="scss">
+
 	@import '../helpers/common-styles.scss';
+
 	.event-list-options {
 		display: flex;
 		justify-content: space-between;
@@ -101,11 +105,12 @@
 		border: 1px solid $additional-background-button-color;
 		border-radius: 20px;
 		&:hover {
-			transform: scale(1.01);
+			opacity: 0.8;
 		}
 	}
 	.page-buttons {
 		display: flex;
 		justify-content: center;
 	}
+
 </style>

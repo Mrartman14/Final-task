@@ -7,9 +7,9 @@
 						<img :src="item.comments[commentIndex].avatar"
 							class="event__comment__author__avatar">	 
 				</div>
-				<a href="" class="event__comment__author__name">
+				<span class="event__comment__author__name">
 					{{ item.comments[commentIndex].name }}
-				</a>
+				</span>
 			</div>
 			<div class="event__comment__date">{{ validDate(item.comments[commentIndex].date) }}</div>
 		</div>
@@ -29,7 +29,6 @@
 
 	import { validDate } from '../helpers/validDate';
 	import { mapGetters, mapActions } from 'vuex';
-	import axios from 'axios';
 
 	export default {
 		name: 'EventComment',
@@ -55,7 +54,9 @@
 </script>
 
 <style lang="scss">
-@import '../helpers/common-styles.scss';
+
+	@import '../helpers/common-styles.scss';
+
 	.event__comment {
 		border: 1px solid #000;
 		margin: 20px 0;
@@ -70,6 +71,10 @@
 			align-items: center;
 			&__name {
 				color: $secondary-font-color;
+				cursor: pointer;
+				&:hover {
+					color: $primary-font-color;
+				} 
 			}
 			&__avatar {
 				height: 100%;
@@ -95,10 +100,14 @@
 			border: none;
 			padding: 0;
 			color: $delete-color;
+			&:hover {
+				opacity: 0.7;
+			}
 		}
 	}
 	.event__comment__delete-wrapper {
 		display: flex;
 		justify-content: flex-end;
 	}
+
 </style>
