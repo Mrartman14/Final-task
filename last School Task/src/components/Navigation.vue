@@ -23,7 +23,7 @@
 			return {
 				selected: ['navigation__link', 'navigation__link navigation__link-selected'],
 				routes: [['past', 'Прошедшие'], ['current', 'Текущие'], ['nearest', 'Ближайшие']],
-				index: [0, 1, 0]
+				index: []
 			}
 		},
 		methods: {
@@ -31,6 +31,13 @@
 				this.index = this.index.map((i) => i = 0);
 				this.index[i] = 1;
 				this.$router.push(`/events/${this.routes[i][0]}`);
+			}
+		},
+		mounted() {
+			switch (this.$route.fullPath) {
+				case '/events/past': this.index = [1, 0, 0]; break;
+				case '/events/current': this.index = [0, 1, 0]; break;
+				case '/events/nearest': this.index = [0, 0, 1]; break;
 			}
 		},
 		components: {

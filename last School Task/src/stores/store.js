@@ -14,7 +14,7 @@ let store = new Vuex.Store({
 			searchParam: ``,
 			search: `?search=`,
 			sortParam: 0,
-			sort: `&sortBy=dete&order=dete`
+			sort: `&sortBy=dete&orderBy=dete`
 		}
 	},
 	getters: {

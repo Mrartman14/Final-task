@@ -38,7 +38,7 @@
 				this.setQueryParams({
 					search: this.search,
 					searchParam: this.searchParam,
-					sort: `&sortBy=${this.sortBy[shadowSortParam][1]}&order=${this.sortBy[shadowSortParam][1]}`,
+					sort: `&sortBy=${this.sortBy[shadowSortParam][1]}&orderBy=${this.sortBy[shadowSortParam][1]}`,
 					sortParam: shadowSortParam
 				})
 			}

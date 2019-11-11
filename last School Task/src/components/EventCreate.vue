@@ -68,15 +68,17 @@
 				'postQuery'
 			]),
 			createEvent() {
-				let newEvent = {
-					dete: new Date(this.date),
-					title: this.title,
-					description: this.description,
-					important: true,
-					comments: [],
-					user: {}
-				};
-				this.postQuery({ query: this.defaultQuery, value: newEvent });
+				this.postQuery({ 
+					query: this.defaultQuery,
+					value: {
+						dete: new Date(this.date).toISOString(),
+						title: this.title,
+						description: this.description,
+						important: true,
+						comments: [],
+						user: {}
+					}
+				});
 			},
 			validation() {
 				if(this.title === '' || this.description === '') {
@@ -181,6 +183,7 @@
 		&__submit {
 			padding: 10px 0;
 			&__input {
+				//height: 80px;
 				margin-top: 5px;
 				box-shadow: $box-shadow;
 				padding: 5px 10px;
